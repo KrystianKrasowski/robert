@@ -16,7 +16,9 @@ INCLUDE_PATH = \
 LIBS_PATH = \
 	-L/usr/local/lib
 LIBS = \
-	-lavrhal-gpio
+	-lavrhal-gpio \
+	-lavrhal-t1nrm \
+	-lavrhal-t1int
 
 # test dependencies
 TEST_INCLUDE_PATH = \
