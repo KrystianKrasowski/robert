@@ -83,7 +83,7 @@ $(DIR_TEST_RESULTS)/%.txt: $(DIR_TEST_BIN)/%.out
 	@mkdir -p $(@D)
 	@-./$< > $@ 2>&1
 
-$(DIR_TEST_BIN)/%_test.out: $(DIR_TEST_OBJ)/%_test.o $(DIR_TEST_OBJ)/%.o
+$(DIR_TEST_BIN)/%_test.out: $(DIR_TEST_OBJ)/%.o $(DIR_TEST_OBJ)/%_test.o
 	@mkdir -p $(@D)
 	@$(CC_T) $^ -o $@ $(TEST_LIBS)
 
