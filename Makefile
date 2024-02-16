@@ -18,7 +18,8 @@ LIBS_PATH = \
 LIBS = \
 	-lavrhal-gpio \
 	-lavrhal-t1nrm \
-	-lavrhal-t1int
+	-lavrhal-t1int \
+	-lavrhal-t0pwm
 
 # test dependencies
 TEST_INCLUDE_PATH = \
