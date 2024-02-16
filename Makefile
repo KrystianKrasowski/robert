@@ -12,7 +12,7 @@ CC_T = gcc
 # dependencies
 INCLUDE_PATH = \
 	-I/usr/local/include \
-	-I$(DIR_INCLUDE)
+	-I$(DIR_SRC)
 LIBS_PATH = \
 	-L/usr/local/lib
 LIBS = \
@@ -23,11 +23,10 @@ LIBS = \
 # test dependencies
 TEST_INCLUDE_PATH = \
 	-I$(DIR_TEST_INCLUDE) \
-	-I$(DIR_INCLUDE)
+	-I$(DIR_SRC)
 TEST_LIBS = -lunity
 
 # directory structure
-DIR_INCLUDE = include
 DIR_SRC = src
 DIR_BUILD = build
 DIR_BUILD_RELEASE = build/release
