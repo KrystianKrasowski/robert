@@ -1,9 +1,6 @@
 #ifndef _IRP
 #define _IRP
 
-#include <avrhal/t1int.h>
-#include <avrhal/t1nrm.h>
-
 #define IR_WIDTH_LOGIC_0 1400
 #define IR_WIDTH_LOGIC_1 2500
 
@@ -32,7 +29,7 @@ typedef enum
   IRP_CMD_NREADY = 0
 } irp_command_t;
 
-void irp_init(hal_t1nrm_prescaller_t presc);
+void irp_init();
 irp_command_t irp_read(void);
 void irp_release(void);
 

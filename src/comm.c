@@ -1,7 +1,7 @@
 #include "comm.h"
 #include "irp.h"
 
-void comm_init(void) { irp_init(HAL_T1NRM_PRESC_1); }
+void comm_init(void) { irp_init(); }
 
 comm_command_t comm_read(void)
 {

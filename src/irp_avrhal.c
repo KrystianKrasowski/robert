@@ -1,3 +1,5 @@
+#include <avrhal/t1int.h>
+#include <avrhal/t1nrm.h>
 #include "irp.h"
 
 volatile static uint8_t _overflows = 0;
@@ -5,12 +7,13 @@ volatile static uint8_t _command_ready = 0;
 volatile static uint8_t _captures_count = 0;
 volatile static uint16_t _raw_cmd[33] = {0};
 
-void irp_init(hal_t1nrm_prescaller_t presc)
+void irp_init()
 {
   hal_t1int_cfg_t config = {.timer_overflow = 1, .input_capture = 1};
 
   hal_t1int_configure(&config);
-  hal_t1nrm_run(presc);
+  // 1MHz clock frequency is assumed here
+  hal_t1nrm_run(HAL_T1NRM_PRESC_1);
 }
 
 irp_command_t irp_read(void)
