@@ -107,18 +107,6 @@ void apply(comm_command_t command)
     case COMM_TURN_LEFT:
       mov_turn_left();
       break;
-    case COMM_LEFT_BACK_FORWARD:
-      mov_move_left_back_forward();
-      break;
-    case COMM_LEFT_FRONT_FORWARD:
-      mov_move_left_front_forward();
-      break;
-    case COMM_RIGHT_BACK_BACKWARD:
-      mov_move_right_back_backward();
-      break;
-    case COMM_RIGHT_FRONT_BACKWARD:
-      mov_move_right_front_backward();
-      break;
     case COMM_STAY:
       mov_stay();
       break;
