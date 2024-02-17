@@ -1,7 +1,7 @@
 #include "comm.h"
 #include "irp.h"
 
-void comm_init(void) { irp_init(HAL_T1NRM_PRESC_1); }
+void comm_init(void) { irp_init(); }
 
 comm_command_t comm_read(void)
 {
@@ -20,14 +20,6 @@ comm_command_t comm_read(void)
       return COMM_MOVE_RIGHT;
     case IRP_CMD_REWIND:
       return COMM_MOVE_LEFT;
-    case IRP_CMD_1:
-      return COMM_LEFT_FRONT_FORWARD;
-    case IRP_CMD_3:
-      return COMM_RIGHT_FRONT_BACKWARD;
-    case IRP_CMD_9:
-      return COMM_RIGHT_BACK_BACKWARD;
-    case IRP_CMD_7:
-      return COMM_LEFT_BACK_FORWARD;
     default:
       return COMM_STAY;
   }

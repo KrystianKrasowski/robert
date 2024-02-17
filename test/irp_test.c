@@ -38,13 +38,13 @@ void setUp() { irp_release(); }
 
 void tearDown() {}
 
-void should_init_irp(hal_t1nrm_prescaller_t presc)
+void should_init_irp()
 {
   // when
-  irp_init(presc);
+  irp_init();
 
   // then
-  TEST_ASSERT_EQUAL(presc, _presc);
+  TEST_ASSERT_EQUAL(HAL_T1NRM_PRESC_1, _presc);
   TEST_ASSERT_EQUAL(1, _timer1_interrupts.timer_overflow);
   TEST_ASSERT_EQUAL(1, _timer1_interrupts.input_capture);
 }
@@ -87,12 +87,7 @@ void should_return_cmd(uint16_t v1,
 int main(void)
 {
   UNITY_BEGIN();
-  RUN_TEST(should_init_irp, HAL_T1NRM_PRESC_NONE);
   RUN_TEST(should_init_irp, HAL_T1NRM_PRESC_1);
-  RUN_TEST(should_init_irp, HAL_T1NRM_PRESC_8);
-  RUN_TEST(should_init_irp, HAL_T1NRM_PRESC_64);
-  RUN_TEST(should_init_irp, HAL_T1NRM_PRESC_256);
-  RUN_TEST(should_init_irp, HAL_T1NRM_PRESC_1024);
   RUN_TEST(should_return_nready_on_incomplete_command);
   RUN_TEST(should_return_cmd, 2500, 1400, 2500, 1400, 1400, 1400, 2500, 1400, 0xa2);
   RUN_TEST(should_return_cmd, 2500, 2500, 2500, 1400, 1400, 1400, 2500, 1400, 0xe2);
