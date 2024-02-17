@@ -54,8 +54,7 @@ l293_def_t wheel_right_back =
     {.a1 = {.reg = HAL_GPIO_REGD, .dir = HAL_GPIO_OUTPUT, .pin = 2},
      .a2 = {.reg = HAL_GPIO_REGD, .dir = HAL_GPIO_OUTPUT, .pin = 3}};
 
-void bot_init(void);
-void mov_apply(comm_command_t command);
+void apply(comm_command_t command);
 void mov_move_forward(void);
 void mov_move_backward(void);
 void mov_turn_right(void);
@@ -80,13 +79,13 @@ int main(void)
   while (1)
   {
     comm_command_t command = comm_read();
-    mov_apply(command);
+    apply(command);
   }
 
   return 0;
 }
 
-void mov_apply(comm_command_t command)
+void apply(comm_command_t command)
 {
   switch (command)
   {
