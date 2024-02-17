@@ -94,6 +94,66 @@ void mov_turn_left(void)
   hal_t0pwm_run(&pwm);
 }
 
+void mov_move_forward_right(void)
+{
+  l293_right(&wheel_left_front);
+  l293_right(&wheel_right_back);
+  hal_t0pwm_run(&pwm);
+}
+
+void mov_move_forward_left(void)
+{
+  l293_right(&wheel_right_front);
+  l293_right(&wheel_left_back);
+  hal_t0pwm_run(&pwm);
+}
+
+void mov_move_backward_right(void)
+{
+  l293_left(&wheel_right_front);
+  l293_left(&wheel_left_back);
+  hal_t0pwm_run(&pwm);
+}
+
+void mov_move_backward_left(void)
+{
+  l293_left(&wheel_left_front);
+  l293_left(&wheel_right_back);
+  hal_t0pwm_run(&pwm);
+}
+
+void mov_rotate_right(void)
+{
+  l293_right(&wheel_left_front);
+  l293_right(&wheel_left_back);
+  l293_left(&wheel_right_front);
+  l293_left(&wheel_right_back);
+  hal_t0pwm_run(&pwm);
+}
+
+void mov_rotate_left(void)
+{
+  l293_left(&wheel_left_front);
+  l293_left(&wheel_left_back);
+  l293_right(&wheel_right_front);
+  l293_right(&wheel_right_back);
+  hal_t0pwm_run(&pwm);
+}
+
+void mov_face_right(void)
+{
+  l293_right(&wheel_left_front);
+  l293_left(&wheel_right_front);
+  hal_t0pwm_run(&pwm);
+}
+
+void mov_face_left(void)
+{
+  l293_left(&wheel_left_front);
+  l293_right(&wheel_right_front);
+  hal_t0pwm_run(&pwm);
+}
+
 void mov_stay(void)
 {
   l293_stop(&wheel_left_front);

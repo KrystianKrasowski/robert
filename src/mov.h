@@ -8,10 +8,14 @@ void mov_turn_right(void);
 void mov_turn_left(void);
 void mov_move_right(void);
 void mov_move_left(void);
-void mov_move_left_back_forward(void);
-void mov_move_left_front_forward(void);
-void mov_move_right_back_backward(void);
-void mov_move_right_front_backward(void);
+void mov_move_forward_right(void);
+void mov_move_forward_left(void);
+void mov_move_backward_right(void);
+void mov_move_backward_left(void);
+void mov_rotate_right(void);
+void mov_rotate_left(void);
+void mov_face_right(void);
+void mov_face_left(void);
 void mov_stay();
 
 #endif
