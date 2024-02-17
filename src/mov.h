@@ -16,6 +16,7 @@ void mov_rotate_right(void);
 void mov_rotate_left(void);
 void mov_face_right(void);
 void mov_face_left(void);
+void mov_turn_left_backwards(void);
 void mov_stay();
 
 #endif

@@ -36,6 +36,8 @@ comm_command_t comm_read(void)
       return COMM_FACE_RIGHT;
     case IRP_CMD_0:
       return COMM_FACE_LEFT;
+    case IRP_CMD_BACK:
+      return COMM_TURN_LEFT_BACKWARDS;
     default:
       return COMM_STAY;
   }

@@ -154,6 +154,13 @@ void mov_face_left(void)
   hal_t0pwm_run(&pwm);
 }
 
+void mov_turn_left_backwards(void)
+{
+  l293_left(&wheel_right_front);
+  l293_left(&wheel_right_back);
+  hal_t0pwm_run(&pwm);
+}
+
 void mov_stay(void)
 {
   l293_stop(&wheel_left_front);

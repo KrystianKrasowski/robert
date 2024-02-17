@@ -63,6 +63,9 @@ static void apply(comm_command_t command)
     case COMM_FACE_LEFT:
       mov_face_left();
       break;
+    case COMM_TURN_LEFT_BACKWARDS:
+      mov_turn_left_backwards();
+      break;
     case COMM_STAY:
       mov_stay();
       break;
