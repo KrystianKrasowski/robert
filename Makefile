@@ -23,7 +23,6 @@ LIBS = \
 
 # test dependencies
 TEST_INCLUDE_PATH = \
-	-I$(DIR_TEST_INCLUDE) \
 	-I$(DIR_SRC)
 TEST_LIBS = -lunity
 
@@ -33,7 +32,6 @@ DIR_BUILD = build
 DIR_BUILD_RELEASE = build/release
 DIR_DIST = bin
 DIR_TEST_SRC = test
-DIR_TEST_INCLUDE = test/include
 DIR_TEST_BUILD = build/test
 DIR_TEST_BIN = build/test/bin
 DIR_TEST_OBJ = build/test/obj
