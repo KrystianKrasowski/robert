@@ -13,7 +13,7 @@ void irp_init()
 
   hal_t1int_configure(&config);
   // 1MHz clock frequency is assumed here
-  hal_t1nrm_run(HAL_T1NRM_PRESC_1);
+  hal_t1nrm_run(HAL_TIMER_PRESCALLER_1);
 }
 
 irp_command_t irp_read(void)

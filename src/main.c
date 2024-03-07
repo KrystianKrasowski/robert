@@ -1,11 +1,148 @@
 #include "comm.h"
-#include "mov.h"
+#include "motion.h"
+#include <stdint.h>
 
 static void apply(comm_command_t command);
 
+static motion_t command_motion_matrix[19][4] = {
+    [COMM_MOVE_FACE_FORWARD] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_FWD},
+        },
+    [COMM_MOVE_FACE_BACKWARD] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_BCK},
+        },
+    [COMM_MOVE_SIDE_RIGHT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_FWD},
+        },
+    [COMM_MOVE_SIDE_LEFT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_BCK},
+        },
+    [COMM_MOVE_DIAG_FORWARD_RIGHT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_FWD},
+        },
+    [COMM_MOVE_DIAG_FORWARD_LEFT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
+    [COMM_MOVE_DIAG_BACKWARD_RIGHT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
+    [COMM_MOVE_DIAG_BACKWARD_LEFT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_BCK},
+        },
+    [COMM_ROTATE_SIDE_RIGHT_FORWARD] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_FWD},
+        },
+    [COMM_ROTATE_SIDE_RIGHT_BACKWARD] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_BCK},
+        },
+    [COMM_ROTATE_SIDE_LEFT_FORWARD] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
+    [COMM_ROTATE_SIDE_LEFT_BACKWARD] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
+    [COMM_ROTATE_RIGHT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_FWD},
+        },
+    [COMM_ROTATE_LEFT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_BCK},
+        },
+    [COMM_ROTATE_FACE_FRONT_RIGHT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
+    [COMM_ROTATE_FACE_FRONT_LEFT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_BCK},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
+    [COMM_ROTATE_FACE_REAR_RIGHT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_BCK},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_FWD},
+        },
+    [COMM_ROTATE_FACE_REAR_LEFT] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_FWD},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_BCK},
+        },
+    [COMM_STOP] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
+};
+
 int main(void)
 {
-  mov_init();
+  motion_init();
   comm_init();
 
   while (1)
@@ -19,55 +156,17 @@ int main(void)
 
 static void apply(comm_command_t command)
 {
-  switch (command)
+  for (uint8_t i = 0; i < 4; i++)
   {
-    case COMM_MOVE_FORWARD:
-      mov_move_forward();
-      break;
-    case COMM_MOVE_BACKWARD:
-      mov_move_backward();
-      break;
-    case COMM_MOVE_RIGHT:
-      mov_move_right();
-      break;
-    case COMM_MOVE_LEFT:
-      mov_move_left();
-      break;
-    case COMM_TURN_RIGHT:
-      mov_turn_right();
-      break;
-    case COMM_TURN_LEFT:
-      mov_turn_left();
-      break;
-    case COMM_MOVE_FORWARD_RIGHT:
-      mov_move_forward_right();
-      break;
-    case COMM_MOVE_FORWARD_LEFT:
-      mov_move_forward_left();
-      break;
-    case COMM_MOVE_BACKWARD_RIGHT:
-      mov_move_backward_right();
-      break;
-    case COMM_MOVE_BACKWARD_LEFT:
-      mov_move_backward_left();
-      break;
-    case COMM_ROTATE_RIGHT:
-      mov_rotate_right();
-      break;
-    case COMM_ROTATE_LEFT:
-      mov_rotate_left();
-      break;
-    case COMM_FACE_RIGHT:
-      mov_face_right();
-      break;
-    case COMM_FACE_LEFT:
-      mov_face_left();
-      break;
-    case COMM_TURN_LEFT_BACKWARDS:
-      mov_turn_left_backwards();
-      break;
-    case COMM_STAY:
-      mov_stay();
-      break;
+    motion_set(&command_motion_matrix[command][i]);
+  }
+
+  if (command == COMM_STOP)
+  {
+    motion_stop();
+  }
+  else
+  {
+    motion_run();
   }
 }
