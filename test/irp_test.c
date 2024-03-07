@@ -6,9 +6,9 @@
 #include <avrhal/t1nrm.h>
 
 #define PRESC_UNDEFINED 99
-static hal_t1nrm_prescaller_t _presc = PRESC_UNDEFINED;
+static hal_timer_prescaller_t _presc = PRESC_UNDEFINED;
 static uint16_t _timer_value = 0xffff;
-void hal_t1nrm_run(hal_t1nrm_prescaller_t presc) { _presc = presc; }
+void hal_t1nrm_run(hal_timer_prescaller_t presc) { _presc = presc; }
 void hal_t1nrm_set(uint16_t value) { _timer_value = value; }
 void hal_t1nrm_stop(void) { _presc = PRESC_UNDEFINED; }
 
@@ -44,7 +44,7 @@ void should_init_irp()
   irp_init();
 
   // then
-  TEST_ASSERT_EQUAL(HAL_T1NRM_PRESC_1, _presc);
+  TEST_ASSERT_EQUAL(HAL_TIMER_PRESCALLER_1, _presc);
   TEST_ASSERT_EQUAL(1, _timer1_interrupts.timer_overflow);
   TEST_ASSERT_EQUAL(1, _timer1_interrupts.input_capture);
 }
@@ -87,7 +87,7 @@ void should_return_cmd(uint16_t v1,
 int main(void)
 {
   UNITY_BEGIN();
-  RUN_TEST(should_init_irp, HAL_T1NRM_PRESC_1);
+  RUN_TEST(should_init_irp, HAL_TIMER_PRESCALLER_1);
   RUN_TEST(should_return_nready_on_incomplete_command);
   RUN_TEST(should_return_cmd, 2500, 1400, 2500, 1400, 1400, 1400, 2500, 1400, 0xa2);
   RUN_TEST(should_return_cmd, 2500, 2500, 2500, 1400, 1400, 1400, 2500, 1400, 0xe2);
