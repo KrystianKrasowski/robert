@@ -28,7 +28,7 @@ static hal_t0pwm_def_t pwm = {
     .mode = HAL_T0PWM_MODE_PHASE_CORRECT,
     .channel_a = {.mode = HAL_T0PWM_CHANNEL_NON_INVERTING, .duty_cycle = 50},
     .channel_b = {.mode = HAL_T0PWM_CHANNEL_DISCONNECTED, .duty_cycle = 0},
-    .prescaller = HAL_T0PWM_PRESC_8};
+    .prescaller = HAL_TIMER_PRESCALLER_8};
 
 static void l293_init(const l293_def_t *def);
 static void l293_right(const l293_def_t *def);
