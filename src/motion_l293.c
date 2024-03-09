@@ -11,25 +11,29 @@ static hal_t0pwm_def_t pwm = {
 };
 
 static l293_channel_t motors[4] = {
-  [MOTION_MOTOR_LEFT_FRONT] =  {
-    .a1 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 3},
-    .a2 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 2},
-  },
+    [MOTION_MOTOR_LEFT_FRONT] =
+        {
+            .a1 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 3},
+            .a2 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 2},
+        },
 
-  [MOTION_MOTOR_LEFT_REAR] = {
-    .a1 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 5},
-    .a2 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 4},
-  },
+    [MOTION_MOTOR_LEFT_REAR] =
+        {
+            .a1 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 5},
+            .a2 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 4},
+        },
 
-  [MOTION_MOTOR_RIGHT_FRONT] = {
-    .a1 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 0},
-    .a2 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 1},
-  },
+    [MOTION_MOTOR_RIGHT_FRONT] =
+        {
+            .a1 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 0},
+            .a2 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 1},
+        },
 
-  [MOTION_MOTOR_RIGHT_REAR] = {
-    .a1 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 2},
-    .a2 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 3},
-  },
+    [MOTION_MOTOR_RIGHT_REAR] =
+        {
+            .a1 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 2},
+            .a2 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 3},
+        },
 };
 
 void motion_init(void)
@@ -61,12 +65,6 @@ void motion_set(const motion_t *motion)
   l293_set_channel(function, &motors[motion->motor]);
 }
 
-void motion_run(void)
-{
-  hal_t0pwm_run(&pwm);
-}
+void motion_run(void) { hal_t0pwm_run(&pwm); }
 
-void motion_stop(void)
-{
-  hal_t0pwm_stop();
-}
+void motion_stop(void) { hal_t0pwm_stop(); }

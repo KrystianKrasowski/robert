@@ -21,10 +21,10 @@ typedef struct
 
 static void ds2_state_update(void);
 
-static hal_gpio_def_t ps2_select = {
-    .reg = HAL_GPIO_REGD,
+static hal_gpio_def_t ds2_attention = {
+    .reg = HAL_GPIO_REGB,
     .dir = HAL_GPIO_OUTPUT,
-    .pin = 4,
+    .pin = 1,
 };
 
 static const hal_spi_def_t spi = {
@@ -72,8 +72,8 @@ static volatile uint8_t response[9] = {0};
 
 void ds2_init(void)
 {
-  hal_gpio_init(&ps2_select);
-  hal_gpio_write(&ps2_select, HAL_GPIO_HIGH);
+  hal_gpio_init(&ds2_attention);
+  hal_gpio_write(&ds2_attention, HAL_GPIO_HIGH);
   hal_t1ctc_init(&t1ctc);
   hal_t1int_configure(&t1int);
   hal_spi_master_init(&spi);
@@ -85,7 +85,7 @@ uint16_t ds2_read(void)
   if (ds2_communication.start)
   {
     ds2_communication.start = 0;
-    hal_gpio_write(&ps2_select, HAL_GPIO_LOW);
+    hal_gpio_write(&ds2_attention, HAL_GPIO_LOW);
   }
 
   if (ds2_communication.transmit)
@@ -97,7 +97,7 @@ uint16_t ds2_read(void)
   if (ds2_communication.finish)
   {
     ds2_communication.finish = 0;
-    hal_gpio_write(&ps2_select, HAL_GPIO_HIGH);
+    hal_gpio_write(&ds2_attention, HAL_GPIO_HIGH);
     ds2_communication.command_index = 0;
     ds2_state_update();
   }
