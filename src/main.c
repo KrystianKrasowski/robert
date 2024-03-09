@@ -2,7 +2,8 @@
 #include "motion.h"
 #include <stdint.h>
 
-static void apply(comm_command_t command);
+static void
+apply(comm_command_t command);
 
 static motion_t command_motion_matrix[19][4] = {
     [COMM_MOVE_FACE_FORWARD] =
@@ -140,33 +141,35 @@ static motion_t command_motion_matrix[19][4] = {
         },
 };
 
-int main(void)
+int
+main(void)
 {
-  motion_init();
-  comm_init();
+    motion_init();
+    comm_init();
 
-  while (1)
-  {
-    comm_command_t command = comm_read();
-    apply(command);
-  }
+    while (1)
+    {
+        comm_command_t command = comm_read();
+        apply(command);
+    }
 
-  return 0;
+    return 0;
 }
 
-static void apply(comm_command_t command)
+static void
+apply(comm_command_t command)
 {
-  for (uint8_t i = 0; i < 4; i++)
-  {
-    motion_set(&command_motion_matrix[command][i]);
-  }
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        motion_set(&command_motion_matrix[command][i]);
+    }
 
-  if (command == COMM_STOP)
-  {
-    motion_stop();
-  }
-  else
-  {
-    motion_run();
-  }
+    if (command == COMM_STOP)
+    {
+        motion_stop();
+    }
+    else
+    {
+        motion_run();
+    }
 }
