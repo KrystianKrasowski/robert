@@ -1,5 +1,5 @@
-#ifndef _COMM
-#define _COMM
+#ifndef _COMM_H
+#define _COMM_H
 
 typedef enum
 {

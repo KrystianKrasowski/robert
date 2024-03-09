@@ -3,7 +3,7 @@ MMCU = atmega88pa
 CC_R = avr-gcc -mmcu=$(MMCU)
 COPY = avr-objcopy
 SIZE = avr-size
-CFLAGS_R = -Wall -Os -fshort-enums --param=min-pagesize=0 $(INCLUDE_PATH) $(LIBS_PATH)
+CFLAGS_R = -Wall -Os -fshort-enums --param=min-pagesize=0 $(INCLUDE_PATH) $(LIBS_PATH) $(MODULES)
 AVRDUDE_MMCU = m88p
 
 # test toolchain
@@ -17,9 +17,11 @@ LIBS_PATH = \
 	-L/usr/local/lib
 LIBS = \
 	-lavrhal-gpio \
-	-lavrhal-t1nrm \
-	-lavrhal-t1int \
-	-lavrhal-t0pwm
+	-lavrhal-t0pwm \
+	-lavrhal-spi \
+	-lavrhal-t1ctc \
+	-lavrhal-t1int
+MODULES = -D M_COMM=2
 
 # test dependencies
 TEST_INCLUDE_PATH = \

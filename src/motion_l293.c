@@ -7,7 +7,7 @@ static hal_t0pwm_def_t pwm = {
     .mode = HAL_T0PWM_MODE_PHASE_CORRECT,
     .channel_a = {HAL_T0PWM_CHANNEL_NON_INVERTING, 80},
     .channel_b = {HAL_T0PWM_CHANNEL_DISCONNECTED, 0},
-    .prescaller = HAL_TIMER_PRESCALLER_8,
+    .prescaller = HAL_TIMER_PRESCALLER_64,
 };
 
 static l293_channel_t motors[4] = {

@@ -1,3 +1,9 @@
+#ifndef M_COMM
+#define M_COMM 1
+#endif
+
+#if M_COMM == 1
+
 #include <avrhal/t1int.h>
 #include <avrhal/t1nrm.h>
 #include "irp.h"
@@ -12,8 +18,8 @@ void irp_init()
   hal_t1int_cfg_t config = {.timer_overflow = 1, .input_capture = 1};
 
   hal_t1int_configure(&config);
-  // 1MHz clock frequency is assumed here
-  hal_t1nrm_run(HAL_TIMER_PRESCALLER_1);
+  // 8MHz clock frequency is assumed here
+  hal_t1nrm_run(HAL_TIMER_PRESCALLER_8);
 }
 
 irp_command_t irp_read(void)
@@ -84,3 +90,5 @@ void hal_t1int_on_timer_overflow(void)
     irp_release();
   }
 }
+
+#endif

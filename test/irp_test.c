@@ -44,7 +44,7 @@ void should_init_irp()
   irp_init();
 
   // then
-  TEST_ASSERT_EQUAL(HAL_TIMER_PRESCALLER_1, _presc);
+  TEST_ASSERT_EQUAL(HAL_TIMER_PRESCALLER_8, _presc);
   TEST_ASSERT_EQUAL(1, _timer1_interrupts.timer_overflow);
   TEST_ASSERT_EQUAL(1, _timer1_interrupts.input_capture);
 }

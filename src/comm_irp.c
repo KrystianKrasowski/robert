@@ -1,4 +1,10 @@
 #include "comm.h"
+
+#ifndef M_COMM
+#define M_COMM 1
+#endif
+
+#if M_COMM == 1
 #include "irp.h"
 
 void comm_init(void) { irp_init(); }
@@ -42,3 +48,5 @@ comm_command_t comm_read(void)
       return COMM_STOP;
   }
 }
+
+#endif
