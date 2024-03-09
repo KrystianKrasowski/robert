@@ -3,25 +3,45 @@ MMCU = atmega88pa
 CC_R = avr-gcc -mmcu=$(MMCU)
 COPY = avr-objcopy
 SIZE = avr-size
-CFLAGS_R = -Wall -Os -fshort-enums --param=min-pagesize=0 $(INCLUDE_PATH) $(LIBS_PATH) $(MODULES)
+CFLAGS_R = \
+	-Wall \
+	-Os \
+	-fshort-enums \
+	--param=min-pagesize=0 \
+	$(INCLUDE_PATH) \
+	$(LIBS_PATH) \
+	$(SYMBOLS)
+	
+# Programmer
 AVRDUDE_MMCU = m88p
 
 # test toolchain
 CC_T = gcc
 
-# dependencies
+# Paths
 INCLUDE_PATH = \
 	-I/usr/local/include \
 	-I$(DIR_SRC)
 LIBS_PATH = \
 	-L/usr/local/lib
+	
+# Dependency versions
+AVRHAL_VER_MAJOR = 1
+AVRHAL_VER_MINOR = 0
+AVRHAL_VER_PATCH = 0
+AVRHAL_VER = $(AVRHAL_VER_MAJOR).$(AVRHAL_VER_MINOR).$(AVRHAL_VER_PATCH)
+
+# Dependencies
 LIBS = \
-	-lavrhal-gpio \
-	-lavrhal-t0pwm \
-	-lavrhal-spi \
-	-lavrhal-t1ctc \
-	-lavrhal-t1int
-MODULES = -D M_COMM=2
+	-lavrhal-gpio-$(AVRHAL_VER) \
+	-lavrhal-t0pwm-$(AVRHAL_VER) \
+	-lavrhal-spi-$(AVRHAL_VER) \
+	-lavrhal-t1ctc-$(AVRHAL_VER) \
+	-lavrhal-t1int-$(AVRHAL_VER)
+
+SYMBOLS = \
+	-D M_COMM=2 \
+	-D AVRHAL_VER_MAJOR=$(AVRHAL_VER_MAJOR)
 
 # test dependencies
 TEST_INCLUDE_PATH = \
