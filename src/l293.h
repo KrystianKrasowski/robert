@@ -2,6 +2,7 @@
 #define _L293_H
 
 #include <avrhal/gpio.h>
+#include <avrhal/t0pwm.h>
 #include <stdint.h>
 
 typedef struct
@@ -20,5 +21,8 @@ typedef enum
 void l293_init(const l293_channel_t *channel);
 void l293_set_channel(const l293_function_t function,
                       const l293_channel_t *channel);
+
+void l293_enable(const hal_t0pwm_def_t *pwm);
+void l293_disable(void);
 
 #endif
