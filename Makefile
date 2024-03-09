@@ -10,6 +10,7 @@ CFLAGS_R = \
 	--param=min-pagesize=0 \
 	$(INCLUDE_PATH) \
 	$(LIBS_PATH) \
+	$(MODULES) \
 	$(SYMBOLS)
 	
 # Programmer
@@ -39,8 +40,10 @@ LIBS = \
 	-lavrhal-t1ctc-$(AVRHAL_VER) \
 	-lavrhal-t1int-$(AVRHAL_VER)
 
+MODULES = \
+	-D M_COMM=2
+	
 SYMBOLS = \
-	-D M_COMM=2 \
 	-D AVRHAL_VER_MAJOR=$(AVRHAL_VER_MAJOR)
 
 # test dependencies
@@ -111,11 +114,11 @@ $(DIR_TEST_BIN)/%_test.out: $(DIR_TEST_OBJ)/%.o $(DIR_TEST_OBJ)/%_test.o
 
 $(DIR_TEST_OBJ)/%.o:: $(DIR_TEST_SRC)/%.c
 	@mkdir -p $(@D)
-	@$(CC_T) $(TEST_INCLUDE_PATH) -c $< -o $@
+	@$(CC_T) $(TEST_INCLUDE_PATH) $(SYMBOLS) -c $< -o $@
 
 $(DIR_TEST_OBJ)/%.o:: $(DIR_SRC)/%.c
 	@mkdir -p $(@D)
-	@$(CC_T) $(TEST_INCLUDE_PATH) -c $< -o $@
+	@$(CC_T) $(TEST_INCLUDE_PATH) $(SYMBOLS) -c $< -o $@
 
 .PHONY: all flash size clean test
 .PRECIOUS: $(DIR_TEST_BIN)/%.out $(DIR_TEST_RESULTS)/%.txt

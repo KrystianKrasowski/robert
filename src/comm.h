@@ -21,7 +21,8 @@ typedef enum
     COMM_ROTATE_FACE_FRONT_LEFT,
     COMM_ROTATE_FACE_REAR_RIGHT,
     COMM_ROTATE_FACE_REAR_LEFT,
-    COMM_STOP,
+    COMM_SOFT_STOP,
+    COMM_HARD_STOP,
 } comm_command_t;
 
 void

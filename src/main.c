@@ -132,7 +132,7 @@ static motion_t command_motion_matrix[19][4] = {
             {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
             {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_BCK},
         },
-    [COMM_STOP] =
+    [COMM_SOFT_STOP] =
         {
             {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
             {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
@@ -164,7 +164,7 @@ apply(comm_command_t command)
         motion_set(&command_motion_matrix[command][i]);
     }
 
-    if (command == COMM_STOP)
+    if (command == COMM_SOFT_STOP)
     {
         motion_stop();
     }

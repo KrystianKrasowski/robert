@@ -67,6 +67,278 @@ main(void)
     RUN_TEST(should_read_communication,
              COMM_ROTATE_SIDE_RIGHT_FORWARD,
              DS2_BUTTON_UP | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_ROTATE_SIDE_LEFT_FORWARD,
+             DS2_BUTTON_UP | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_ROTATE_SIDE_RIGHT_BACKWARD,
+             DS2_BUTTON_DOWN | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_ROTATE_SIDE_LEFT_BACKWARD,
+             DS2_BUTTON_DOWN | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_ROTATE_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_ROTATE_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_TRIANGLE);
+
     RUN_TEST(should_read_communication, COMM_MOVE_FACE_FORWARD, DS2_BUTTON_UP);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_FORWARD,
+             DS2_BUTTON_UP | DS2_BUTTON_TRIANGLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_FORWARD,
+             DS2_BUTTON_UP | DS2_BUTTON_TRIANGLE | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_FORWARD,
+             DS2_BUTTON_UP | DS2_BUTTON_SQUARE | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_FORWARD,
+             DS2_BUTTON_UP | DS2_BUTTON_CROSS | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_FORWARD,
+             DS2_BUTTON_UP | DS2_BUTTON_SQUARE | DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(
+        should_read_communication, COMM_MOVE_FACE_BACKWARD, DS2_BUTTON_DOWN);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_BACKWARD,
+             DS2_BUTTON_DOWN | DS2_BUTTON_TRIANGLE | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_BACKWARD,
+             DS2_BUTTON_DOWN | DS2_BUTTON_CIRCLE | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_BACKWARD,
+             DS2_BUTTON_DOWN | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_BACKWARD,
+             DS2_BUTTON_DOWN | DS2_BUTTON_CROSS | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_FACE_BACKWARD,
+             DS2_BUTTON_DOWN | DS2_BUTTON_SQUARE | DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(should_read_communication, COMM_MOVE_SIDE_RIGHT, DS2_BUTTON_RIGHT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_TRIANGLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_TRIANGLE | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_CIRCLE | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_CROSS | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_RIGHT,
+             DS2_BUTTON_RIGHT | DS2_BUTTON_SQUARE | DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(should_read_communication, COMM_MOVE_SIDE_LEFT, DS2_BUTTON_LEFT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_TRIANGLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_TRIANGLE | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_CIRCLE | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_CROSS | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_SIDE_LEFT,
+             DS2_BUTTON_LEFT | DS2_BUTTON_SQUARE | DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_TRIANGLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_TRIANGLE |
+                 DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_CIRCLE |
+                 DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_CROSS |
+                 DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT | DS2_BUTTON_SQUARE |
+                 DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_TRIANGLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_TRIANGLE |
+                 DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_CIRCLE |
+                 DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_CROSS |
+                 DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT | DS2_BUTTON_SQUARE |
+                 DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_TRIANGLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_TRIANGLE |
+                 DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_CIRCLE |
+                 DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_CROSS |
+                 DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT | DS2_BUTTON_SQUARE |
+                 DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_TRIANGLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_TRIANGLE |
+                 DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_CIRCLE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_CIRCLE |
+                 DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_CROSS);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_CROSS |
+                 DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_SQUARE);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT | DS2_BUTTON_SQUARE |
+                 DS2_BUTTON_TRIANGLE);
+
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_RIGHT,
+             DS2_BUTTON_UP | DS2_BUTTON_RIGHT);
+
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_FORWARD_LEFT,
+             DS2_BUTTON_UP | DS2_BUTTON_LEFT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_RIGHT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_RIGHT);
+    RUN_TEST(should_read_communication,
+             COMM_MOVE_DIAG_BACKWARD_LEFT,
+             DS2_BUTTON_DOWN | DS2_BUTTON_LEFT);
+
+    RUN_TEST(
+        should_read_communication, COMM_ROTATE_FACE_FRONT_RIGHT, DS2_BUTTON_R1);
+    RUN_TEST(
+        should_read_communication, COMM_ROTATE_FACE_FRONT_LEFT, DS2_BUTTON_L1);
+    RUN_TEST(
+        should_read_communication, COMM_ROTATE_FACE_REAR_RIGHT, DS2_BUTTON_R2);
+    RUN_TEST(
+        should_read_communication, COMM_ROTATE_FACE_REAR_LEFT, DS2_BUTTON_L2);
+
+    RUN_TEST(should_read_communication,
+             COMM_HARD_STOP,
+             DS2_BUTTON_R1 | DS2_BUTTON_R2);
+    RUN_TEST(should_read_communication,
+             COMM_HARD_STOP,
+             DS2_BUTTON_R1 | DS2_BUTTON_L1);
+    RUN_TEST(should_read_communication,
+             COMM_HARD_STOP,
+             DS2_BUTTON_R1 | DS2_BUTTON_L2);
+    RUN_TEST(should_read_communication,
+             COMM_HARD_STOP,
+             DS2_BUTTON_R2 | DS2_BUTTON_L1);
+    RUN_TEST(should_read_communication,
+             COMM_HARD_STOP,
+             DS2_BUTTON_R2 | DS2_BUTTON_L2);
+    RUN_TEST(should_read_communication,
+             COMM_HARD_STOP,
+             DS2_BUTTON_L1 | DS2_BUTTON_L2)
+
     return UNITY_END();
 }

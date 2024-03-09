@@ -50,7 +50,7 @@ comm_read(void)
         case IRP_CMD_BACK:
             return COMM_ROTATE_SIDE_RIGHT_BACKWARD;
         default:
-            return COMM_STOP;
+            return COMM_SOFT_STOP;
     }
 }
 
