@@ -104,7 +104,7 @@ dualshock2_read(void)
 }
 
 void
-hal_spi_on_transfer_complete(const uint8_t chr)
+hal_spi_transfer_complete_isr(const uint8_t chr)
 {
     response[ds2_communication.command_index++] = chr;
 
@@ -119,14 +119,14 @@ hal_spi_on_transfer_complete(const uint8_t chr)
 }
 
 void
-hal_t1int_on_output_compare_a(void)
+hal_t1int_output_compare_a_isr(void)
 {
     ds2_communication.start = 1;
     ds2_communication.wait  = 1;
 }
 
 void
-hal_t1int_on_output_compare_b(void)
+hal_t1int_output_compare_b_isr(void)
 {
     if (ds2_communication.wait)
     {

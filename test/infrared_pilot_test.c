@@ -80,7 +80,7 @@ should_return_nready_on_incomplete_command(void)
     // given
     for (int i = 0; i < 34; i++)
     {
-        hal_t1int_on_input_capture(i);
+        hal_t1int_input_capture_isr(i);
     }
 
     // when
@@ -331,45 +331,45 @@ valid_command(uint16_t v1,
               uint16_t v8)
 {
     // first is ommited
-    hal_t1int_on_input_capture(99);
+    hal_t1int_input_capture_isr(99);
     // transmission start
-    hal_t1int_on_input_capture(14000);
+    hal_t1int_input_capture_isr(14000);
     // address
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_1);
     // address negated
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_input_capture_isr(INFRARED_PILOT_WIDTH_LOGIC_0);
     // command
-    hal_t1int_on_input_capture(v1);
-    hal_t1int_on_input_capture(v2);
-    hal_t1int_on_input_capture(v3);
-    hal_t1int_on_input_capture(v4);
-    hal_t1int_on_input_capture(v5);
-    hal_t1int_on_input_capture(v6);
-    hal_t1int_on_input_capture(v7);
-    hal_t1int_on_input_capture(v8);
+    hal_t1int_input_capture_isr(v1);
+    hal_t1int_input_capture_isr(v2);
+    hal_t1int_input_capture_isr(v3);
+    hal_t1int_input_capture_isr(v4);
+    hal_t1int_input_capture_isr(v5);
+    hal_t1int_input_capture_isr(v6);
+    hal_t1int_input_capture_isr(v7);
+    hal_t1int_input_capture_isr(v8);
     // command negated
-    hal_t1int_on_input_capture(negate(v1));
-    hal_t1int_on_input_capture(negate(v2));
-    hal_t1int_on_input_capture(negate(v3));
-    hal_t1int_on_input_capture(negate(v4));
-    hal_t1int_on_input_capture(negate(v5));
-    hal_t1int_on_input_capture(negate(v6));
-    hal_t1int_on_input_capture(negate(v7));
-    hal_t1int_on_input_capture(negate(v8));
+    hal_t1int_input_capture_isr(negate(v1));
+    hal_t1int_input_capture_isr(negate(v2));
+    hal_t1int_input_capture_isr(negate(v3));
+    hal_t1int_input_capture_isr(negate(v4));
+    hal_t1int_input_capture_isr(negate(v5));
+    hal_t1int_input_capture_isr(negate(v6));
+    hal_t1int_input_capture_isr(negate(v7));
+    hal_t1int_input_capture_isr(negate(v8));
 }
 
 static uint16_t

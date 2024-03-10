@@ -63,7 +63,7 @@ infrared_pilot_release(void)
 }
 
 void
-hal_t1int_on_input_capture(const uint16_t value)
+hal_t1int_input_capture_isr(const uint16_t value)
 {
     hal_t1nrm_set(0);
     ++_captures_count;
@@ -82,7 +82,7 @@ hal_t1int_on_input_capture(const uint16_t value)
 }
 
 void
-hal_t1int_on_timer_overflow(void)
+hal_t1int_timer_overflow_isr(void)
 {
     ++_overflows;
     if (_overflows > 1)
