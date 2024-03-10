@@ -62,8 +62,13 @@ DIR_TEST_BIN = build/test/bin
 DIR_TEST_OBJ = build/test/obj
 DIR_TEST_RESULTS = build/test/results
 
+SRCS_EXCLUDED = \
+	src/infrared_pilot.c \
+	src/control_infrared_pilot.c
+
 # helper vars
-SRCS = $(wildcard $(DIR_SRC)/*.c)
+ALL_SRCS = $(wildcard $(DIR_SRC)/*.c)
+SRCS = $(filter-out $(SRCS_EXCLUDED), $(ALL_SRCS))
 OBJS = $(patsubst $(DIR_SRC)/%.c,$(DIR_BUILD_RELEASE)/%.o,$(SRCS))
 TSRC = $(wildcard $(DIR_TEST_SRC)/*.c)
 TRES = $(patsubst $(DIR_TEST_SRC)/%_test.c, $(DIR_TEST_RESULTS)/%_test.txt, $(TSRC))

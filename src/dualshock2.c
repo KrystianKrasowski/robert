@@ -1,10 +1,3 @@
-
-#ifndef M_COMM
-#define M_COMM 2
-#endif
-
-#if M_COMM == 2
-
 #include "dualshock2.h"
 #include <avrhal/gpio.h>
 #include <avrhal/spi.h>
@@ -155,5 +148,3 @@ ds2_state_update(void)
         last_state = ~(((uint16_t)response[4] << 8) | response[3]);
     }
 }
-
-#endif

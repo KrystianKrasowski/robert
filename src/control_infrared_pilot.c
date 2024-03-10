@@ -1,10 +1,4 @@
 #include "control.h"
-
-#ifndef M_COMM
-#define M_COMM 1
-#endif
-
-#if M_COMM == 1
 #include "infrared_pilot.h"
 
 void
@@ -53,5 +47,3 @@ control_read(void)
             return CTRL_SOFT_STOP;
     }
 }
-
-#endif

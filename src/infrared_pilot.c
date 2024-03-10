@@ -1,10 +1,3 @@
-
-#ifndef M_COMM
-#define M_COMM 1
-#endif
-
-#if M_COMM == 1
-
 #include "infrared_pilot.h"
 #include <avrhal/t1int.h>
 #include <avrhal/t1nrm.h>
@@ -97,5 +90,3 @@ hal_t1int_on_timer_overflow(void)
         infrared_pilot_release();
     }
 }
-
-#endif

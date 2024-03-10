@@ -1,11 +1,4 @@
-
-#ifndef M_COMM
-#endif
-#define M_COMM 2
-
 #include "control.h"
-
-#if M_COMM == 2
 #include "dualshock2.h"
 
 static void
@@ -149,5 +142,3 @@ recognize_face_rotation(const uint16_t *ds2_state, control_command_t *command)
         *command = CTRL_ROTATE_FACE_REAR_LEFT;
     }
 }
-
-#endif
