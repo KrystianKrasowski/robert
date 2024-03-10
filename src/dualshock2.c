@@ -1,10 +1,11 @@
+
 #ifndef M_COMM
 #define M_COMM 2
 #endif
 
 #if M_COMM == 2
 
-#include "ds2.h"
+#include "dualshock2.h"
 #include <avrhal/gpio.h>
 #include <avrhal/spi.h>
 #include <avrhal/t1ctc.h>
@@ -72,7 +73,7 @@ static volatile ds2_communication_t ds2_communication = {
 static volatile uint8_t response[9] = {0};
 
 void
-ds2_init(void)
+dualshock2_init(void)
 {
     hal_gpio_init(&ds2_attention);
     hal_gpio_write(&ds2_attention, HAL_GPIO_HIGH);
@@ -83,7 +84,7 @@ ds2_init(void)
 }
 
 uint16_t
-ds2_read(void)
+dualshock2_read(void)
 {
     if (ds2_communication.start)
     {

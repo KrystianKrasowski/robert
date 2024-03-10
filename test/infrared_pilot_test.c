@@ -1,35 +1,33 @@
-#include "irp.h"
+#include "infrared_pilot.h"
 #include "unity_config.h"
+#include <avrhal/t1int.h>
+#include <avrhal/t1nrm.h>
 #include <unity/unity.h>
 
 // t1nrm stubs
-#include <avrhal/t1nrm.h>
-
-#define PRESC_UNDEFINED 99
-static hal_timer_prescaller_t _presc       = PRESC_UNDEFINED;
-static uint16_t               _timer_value = 0xffff;
+#define PRESCALLER_UNDEFINED 99
+static hal_timer_prescaller_t prescaller  = PRESCALLER_UNDEFINED;
+static uint16_t               timer_value = 0xffff;
 
 void
 hal_t1nrm_run(hal_timer_prescaller_t presc)
 {
-    _presc = presc;
+    prescaller = presc;
 }
 
 void
 hal_t1nrm_set(uint16_t value)
 {
-    _timer_value = value;
+    timer_value = value;
 }
 
 void
 hal_t1nrm_stop(void)
 {
-    _presc = PRESC_UNDEFINED;
+    prescaller = PRESCALLER_UNDEFINED;
 }
 
 // t1int stubs
-#include <avrhal/t1int.h>
-
 static hal_t1int_cfg_t _timer1_interrupts;
 
 void
@@ -40,23 +38,23 @@ hal_t1int_configure(const hal_t1int_cfg_t *cfg)
 
 // helper functions
 static void
-_valid_command(uint16_t v1,
-               uint16_t v2,
-               uint16_t v3,
-               uint16_t v4,
-               uint16_t v5,
-               uint16_t v6,
-               uint16_t v7,
-               uint16_t v8);
+valid_command(uint16_t v1,
+              uint16_t v2,
+              uint16_t v3,
+              uint16_t v4,
+              uint16_t v5,
+              uint16_t v6,
+              uint16_t v7,
+              uint16_t v8);
 
 static uint16_t
-_negate(uint16_t value);
+negate(uint16_t value);
 
 // tests
 void
 setUp()
 {
-    irp_release();
+    infrared_pilot_release();
 }
 
 void
@@ -68,10 +66,10 @@ void
 should_init_irp()
 {
     // when
-    irp_init();
+    infrared_pilot_init();
 
     // then
-    TEST_ASSERT_EQUAL(HAL_TIMER_PRESCALLER_8, _presc);
+    TEST_ASSERT_EQUAL(HAL_TIMER_PRESCALLER_8, prescaller);
     TEST_ASSERT_EQUAL(1, _timer1_interrupts.timer_overflow);
     TEST_ASSERT_EQUAL(1, _timer1_interrupts.input_capture);
 }
@@ -86,7 +84,7 @@ should_return_nready_on_incomplete_command(void)
     }
 
     // when
-    irp_command_t command = irp_read();
+    infrared_pilot_command_t command = infrared_pilot_read();
 
     // then
     TEST_ASSERT_EQUAL(IRP_CMD_NREADY, command);
@@ -104,10 +102,10 @@ should_return_cmd(uint16_t v1,
                   uint8_t  expected)
 {
     // given
-    _valid_command(v1, v2, v3, v4, v5, v6, v7, v8);
+    valid_command(v1, v2, v3, v4, v5, v6, v7, v8);
 
     // when
-    irp_command_t command = irp_read();
+    infrared_pilot_command_t command = infrared_pilot_read();
 
     // then
     TEST_ASSERT_EQUAL_HEX8(expected, command);
@@ -323,37 +321,37 @@ main(void)
 }
 
 static void
-_valid_command(uint16_t v1,
-               uint16_t v2,
-               uint16_t v3,
-               uint16_t v4,
-               uint16_t v5,
-               uint16_t v6,
-               uint16_t v7,
-               uint16_t v8)
+valid_command(uint16_t v1,
+              uint16_t v2,
+              uint16_t v3,
+              uint16_t v4,
+              uint16_t v5,
+              uint16_t v6,
+              uint16_t v7,
+              uint16_t v8)
 {
     // first is ommited
     hal_t1int_on_input_capture(99);
     // transmission start
     hal_t1int_on_input_capture(14000);
     // address
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_1);
     // address negated
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
-    hal_t1int_on_input_capture(IR_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
+    hal_t1int_on_input_capture(INFRARED_PILOT_WIDTH_LOGIC_0);
     // command
     hal_t1int_on_input_capture(v1);
     hal_t1int_on_input_capture(v2);
@@ -364,25 +362,25 @@ _valid_command(uint16_t v1,
     hal_t1int_on_input_capture(v7);
     hal_t1int_on_input_capture(v8);
     // command negated
-    hal_t1int_on_input_capture(_negate(v1));
-    hal_t1int_on_input_capture(_negate(v2));
-    hal_t1int_on_input_capture(_negate(v3));
-    hal_t1int_on_input_capture(_negate(v4));
-    hal_t1int_on_input_capture(_negate(v5));
-    hal_t1int_on_input_capture(_negate(v6));
-    hal_t1int_on_input_capture(_negate(v7));
-    hal_t1int_on_input_capture(_negate(v8));
+    hal_t1int_on_input_capture(negate(v1));
+    hal_t1int_on_input_capture(negate(v2));
+    hal_t1int_on_input_capture(negate(v3));
+    hal_t1int_on_input_capture(negate(v4));
+    hal_t1int_on_input_capture(negate(v5));
+    hal_t1int_on_input_capture(negate(v6));
+    hal_t1int_on_input_capture(negate(v7));
+    hal_t1int_on_input_capture(negate(v8));
 }
 
 static uint16_t
-_negate(uint16_t value)
+negate(uint16_t value)
 {
-    if (value == IR_WIDTH_LOGIC_1)
+    if (value == INFRARED_PILOT_WIDTH_LOGIC_1)
     {
-        return IR_WIDTH_LOGIC_0;
+        return INFRARED_PILOT_WIDTH_LOGIC_0;
     }
     else
     {
-        return IR_WIDTH_LOGIC_1;
+        return INFRARED_PILOT_WIDTH_LOGIC_1;
     }
 }

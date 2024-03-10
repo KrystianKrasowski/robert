@@ -1,10 +1,11 @@
+
 #ifndef M_COMM
 #define M_COMM 1
 #endif
 
 #if M_COMM == 1
 
-#include "irp.h"
+#include "infrared_pilot.h"
 #include <avrhal/t1int.h>
 #include <avrhal/t1nrm.h>
 
@@ -14,7 +15,7 @@ volatile static uint8_t  _captures_count = 0;
 volatile static uint16_t _raw_cmd[33]    = {0};
 
 void
-irp_init()
+infrared_pilot_init()
 {
     hal_t1int_cfg_t config = {.timer_overflow = 1, .input_capture = 1};
 
@@ -23,8 +24,8 @@ irp_init()
     hal_t1nrm_run(HAL_TIMER_PRESCALLER_8);
 }
 
-irp_command_t
-irp_read(void)
+infrared_pilot_command_t
+infrared_pilot_read(void)
 {
     if (_command_ready == 0)
     {
@@ -40,13 +41,13 @@ irp_read(void)
         {
             uint8_t index = 7 - (i - 17);
 
-            if (_raw_cmd[i] <= IR_WIDTH_LOGIC_0)
+            if (_raw_cmd[i] <= INFRARED_PILOT_WIDTH_LOGIC_0)
             {
                 code |= (0 << index);
             }
 
-            if (_raw_cmd[i] > IR_WIDTH_LOGIC_0 &&
-                _raw_cmd[i] <= IR_WIDTH_LOGIC_1)
+            if (_raw_cmd[i] > INFRARED_PILOT_WIDTH_LOGIC_0 &&
+                _raw_cmd[i] <= INFRARED_PILOT_WIDTH_LOGIC_1)
             {
                 code |= (1 << index);
             }
@@ -57,7 +58,7 @@ irp_read(void)
 }
 
 void
-irp_release(void)
+infrared_pilot_release(void)
 {
     for (uint8_t i = 0; i < 33; i++)
     {
@@ -93,7 +94,7 @@ hal_t1int_on_timer_overflow(void)
     ++_overflows;
     if (_overflows > 1)
     {
-        irp_release();
+        infrared_pilot_release();
     }
 }
 

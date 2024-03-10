@@ -14,12 +14,12 @@ typedef enum
     MOTION_DIR_FWD,
     MOTION_DIR_BCK,
     MOTION_DIR_STOP,
-} motion_dir_t;
+} motion_direction_t;
 
 typedef struct
 {
-    motion_motor_t motor;
-    motion_dir_t   direction;
+    motion_motor_t     motor;
+    motion_direction_t direction;
 } motion_t;
 
 void

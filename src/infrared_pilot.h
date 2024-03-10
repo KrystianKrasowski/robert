@@ -1,8 +1,8 @@
-#ifndef _IRP
-#define _IRP
+#ifndef _INFRARED_PILOT_H
+#define _INFRARED_PILOT_H
 
-#define IR_WIDTH_LOGIC_0 1400
-#define IR_WIDTH_LOGIC_1 2500
+#define INFRARED_PILOT_WIDTH_LOGIC_0 1400
+#define INFRARED_PILOT_WIDTH_LOGIC_1 2500
 
 typedef enum
 {
@@ -27,15 +27,15 @@ typedef enum
     IRP_CMD_8       = 0x4A,
     IRP_CMD_9       = 0x52,
     IRP_CMD_NREADY  = 0
-} irp_command_t;
+} infrared_pilot_command_t;
 
 void
-irp_init();
+infrared_pilot_init();
 
-irp_command_t
-irp_read(void);
+infrared_pilot_command_t
+infrared_pilot_read(void);
 
 void
-irp_release(void);
+infrared_pilot_release(void);
 
 #endif
