@@ -5,7 +5,7 @@
 static void
 apply(comm_command_t command);
 
-static motion_t command_motion_matrix[19][4] = {
+static motion_t command_motion_matrix[20][4] = {
     [COMM_MOVE_FACE_FORWARD] =
         {
             {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_FWD},
@@ -139,6 +139,13 @@ static motion_t command_motion_matrix[19][4] = {
             {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
             {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
         },
+    [COMM_HARD_STOP] =
+        {
+            {MOTION_MOTOR_LEFT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_LEFT_REAR, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_FRONT, MOTION_DIR_STOP},
+            {MOTION_MOTOR_RIGHT_REAR, MOTION_DIR_STOP},
+        },
 };
 
 int
@@ -165,6 +172,10 @@ apply(comm_command_t command)
     }
 
     if (command == COMM_SOFT_STOP)
+    {
+        motion_stop_running();
+    }
+    else if (command == COMM_HARD_STOP)
     {
         motion_stop();
     }

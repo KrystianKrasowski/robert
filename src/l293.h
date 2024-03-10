@@ -15,7 +15,7 @@ typedef enum
 {
     L293_TURN_LEFT,
     L293_TURN_RIGHT,
-    L293_FAST_STOP,
+    L293_STOP,
 } l293_function_t;
 
 void
@@ -28,6 +28,9 @@ void
 l293_enable(const hal_t0pwm_def_t *pwm);
 
 void
-l293_disable(void);
+l293_free_running_stop(void);
+
+void
+l293_fast_stop(void);
 
 #endif

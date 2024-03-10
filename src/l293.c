@@ -38,7 +38,7 @@ l293_set_channel(const l293_function_t function, const l293_channel_t *channel)
             gpio_state[channel->a1.reg] |= (1 << channel->a1.pin);
             gpio_state[channel->a2.reg] &= ~(1 << channel->a2.pin);
             break;
-        case L293_FAST_STOP:
+        case L293_STOP:
         default:
             gpio_state[channel->a1.reg] &= ~(1 << channel->a1.pin);
             gpio_state[channel->a2.reg] &= ~(1 << channel->a2.pin);
@@ -54,10 +54,16 @@ l293_enable(const hal_t0pwm_def_t *pwm)
 }
 
 void
-l293_disable(void)
+l293_free_running_stop(void)
 {
     update_gpio();
     hal_t0pwm_stop();
+}
+
+void
+l293_fast_stop(void)
+{
+    update_gpio();
 }
 
 static void

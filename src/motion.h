@@ -32,6 +32,9 @@ void
 motion_run(void);
 
 void
+motion_stop_running(void);
+
+void
 motion_stop(void);
 
 #endif

@@ -11,7 +11,7 @@ static hal_gpio_def_t pwm_gpio = {
 
 static hal_t0pwm_def_t pwm = {
     .mode       = HAL_T0PWM_MODE_PHASE_CORRECT,
-    .channel_a  = {HAL_T0PWM_CHANNEL_NON_INVERTING, 75},
+    .channel_a  = {HAL_T0PWM_CHANNEL_NON_INVERTING, 70},
     .channel_b  = {HAL_T0PWM_CHANNEL_DISCONNECTED, 0},
     .prescaller = HAL_TIMER_PRESCALLER_256,
 };
@@ -68,7 +68,7 @@ motion_set(const motion_t *motion)
             break;
         case MOTION_DIR_STOP:
         default:
-            function = L293_FAST_STOP;
+            function = L293_STOP;
     }
 
     l293_set_channel(function, &motors[motion->motor]);
@@ -81,7 +81,13 @@ motion_run(void)
 }
 
 void
+motion_stop_running(void)
+{
+    l293_free_running_stop();
+}
+
+void
 motion_stop(void)
 {
-    l293_disable();
+    l293_fast_stop();
 }
