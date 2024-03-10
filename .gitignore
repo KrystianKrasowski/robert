@@ -49,3 +49,8 @@ flycheck_*.el
 # directory configuration
 .dir-locals.elbuild
 bin
+
+# eclipse
+.cproject
+.project
+

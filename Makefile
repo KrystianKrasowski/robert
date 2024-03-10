@@ -3,23 +3,48 @@ MMCU = atmega88pa
 CC_R = avr-gcc -mmcu=$(MMCU)
 COPY = avr-objcopy
 SIZE = avr-size
-CFLAGS_R = -Wall -Os -fshort-enums --param=min-pagesize=0 $(INCLUDE_PATH) $(LIBS_PATH)
+CFLAGS_R = \
+	-Wall \
+	-Os \
+	-fshort-enums \
+	--param=min-pagesize=0 \
+	$(INCLUDE_PATH) \
+	$(LIBS_PATH) \
+	$(MODULES) \
+	$(SYMBOLS)
+	
+# Programmer
 AVRDUDE_MMCU = m88p
 
 # test toolchain
 CC_T = gcc
 
-# dependencies
+# Paths
 INCLUDE_PATH = \
 	-I/usr/local/include \
 	-I$(DIR_SRC)
 LIBS_PATH = \
 	-L/usr/local/lib
+	
+# Dependency versions
+AVRHAL_VER_MAJOR = 1
+AVRHAL_VER_MINOR = 0
+AVRHAL_VER_PATCH = 0
+AVRHAL_VER = $(AVRHAL_VER_MAJOR).$(AVRHAL_VER_MINOR).$(AVRHAL_VER_PATCH)
+
+# Dependencies
 LIBS = \
-	-lavrhal-gpio \
-	-lavrhal-t1nrm \
-	-lavrhal-t1int \
-	-lavrhal-t0pwm
+	-lavrhal-gpio-$(AVRHAL_VER) \
+	-lavrhal-t0pwm-$(AVRHAL_VER) \
+	-lavrhal-spi-$(AVRHAL_VER) \
+	-lavrhal-t1ctc-$(AVRHAL_VER) \
+	-lavrhal-t1int-$(AVRHAL_VER)
+
+MODULES = \
+	-D M_COMM=2
+	
+SYMBOLS = \
+	-D AVRHAL_VER_MAJOR=$(AVRHAL_VER_MAJOR)
 
 # test dependencies
 TEST_INCLUDE_PATH = \
@@ -37,8 +62,13 @@ DIR_TEST_BIN = build/test/bin
 DIR_TEST_OBJ = build/test/obj
 DIR_TEST_RESULTS = build/test/results
 
+SRCS_EXCLUDED = \
+	src/infrared_pilot.c \
+	src/control_infrared_pilot.c
+
 # helper vars
-SRCS = $(wildcard $(DIR_SRC)/*.c)
+ALL_SRCS = $(wildcard $(DIR_SRC)/*.c)
+SRCS = $(filter-out $(SRCS_EXCLUDED), $(ALL_SRCS))
 OBJS = $(patsubst $(DIR_SRC)/%.c,$(DIR_BUILD_RELEASE)/%.o,$(SRCS))
 TSRC = $(wildcard $(DIR_TEST_SRC)/*.c)
 TRES = $(patsubst $(DIR_TEST_SRC)/%_test.c, $(DIR_TEST_RESULTS)/%_test.txt, $(TSRC))
@@ -89,11 +119,11 @@ $(DIR_TEST_BIN)/%_test.out: $(DIR_TEST_OBJ)/%.o $(DIR_TEST_OBJ)/%_test.o
 
 $(DIR_TEST_OBJ)/%.o:: $(DIR_TEST_SRC)/%.c
 	@mkdir -p $(@D)
-	@$(CC_T) $(TEST_INCLUDE_PATH) -c $< -o $@
+	@$(CC_T) $(TEST_INCLUDE_PATH) $(SYMBOLS) -c $< -o $@
 
 $(DIR_TEST_OBJ)/%.o:: $(DIR_SRC)/%.c
 	@mkdir -p $(@D)
-	@$(CC_T) $(TEST_INCLUDE_PATH) -c $< -o $@
+	@$(CC_T) $(TEST_INCLUDE_PATH) $(SYMBOLS) -c $< -o $@
 
 .PHONY: all flash size clean test
 .PRECIOUS: $(DIR_TEST_BIN)/%.out $(DIR_TEST_RESULTS)/%.txt
