@@ -3,13 +3,13 @@
 #include <avrhal/gpio.h>
 #include <avrhal/t0pwm.h>
 
-static hal_gpio_def_t pwm_gpio = {
-    .reg = HAL_GPIO_REGD,
-    .dir = HAL_GPIO_OUTPUT,
-    .pin = 6,
+static hal_gpio_t pwm_gpio = {
+    .gpio_register = HAL_GPIO_REGISTER_D,
+    .direction     = HAL_GPIO_OUTPUT,
+    .pin           = 6,
 };
 
-static hal_t0pwm_def_t pwm = {
+static hal_t0pwm_t pwm = {
     .mode       = HAL_T0PWM_MODE_PHASE_CORRECT,
     .channel_a  = {HAL_T0PWM_CHANNEL_NON_INVERTING, 70},
     .channel_b  = {HAL_T0PWM_CHANNEL_DISCONNECTED, 0},
@@ -19,26 +19,26 @@ static hal_t0pwm_def_t pwm = {
 static l293_channel_t motors[4] = {
     [MOTION_MOTOR_LEFT_FRONT] =
         {
-            .a1 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 3},
-            .a2 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 2},
+            .a1 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 3},
+            .a2 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 2},
         },
 
     [MOTION_MOTOR_LEFT_REAR] =
         {
-            .a1 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 5},
-            .a2 = {HAL_GPIO_REGC, HAL_GPIO_OUTPUT, 4},
+            .a1 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 5},
+            .a2 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 4},
         },
 
     [MOTION_MOTOR_RIGHT_FRONT] =
         {
-            .a1 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 0},
-            .a2 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 1},
+            .a1 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 0},
+            .a2 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 1},
         },
 
     [MOTION_MOTOR_RIGHT_REAR] =
         {
-            .a1 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 2},
-            .a2 = {HAL_GPIO_REGD, HAL_GPIO_OUTPUT, 3},
+            .a1 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 2},
+            .a2 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 3},
         },
 };
 

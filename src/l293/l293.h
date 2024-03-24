@@ -7,8 +7,8 @@
 
 typedef struct
 {
-    hal_gpio_def_t a1;
-    hal_gpio_def_t a2;
+    hal_gpio_t a1;
+    hal_gpio_t a2;
 } l293_channel_t;
 
 typedef enum
@@ -25,7 +25,7 @@ void
 l293_set_channel(const l293_function_t function, const l293_channel_t *channel);
 
 void
-l293_enable(const hal_t0pwm_def_t *pwm);
+l293_enable(const hal_t0pwm_t *pwm);
 
 void
 l293_free_running_stop(void);

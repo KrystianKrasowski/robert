@@ -5,15 +5,15 @@ static void
 update_gpio(void);
 
 static bool gpio_reg_used[3] = {
-    [HAL_GPIO_REGB] = false,
-    [HAL_GPIO_REGC] = false,
-    [HAL_GPIO_REGD] = false,
+    [HAL_GPIO_REGISTER_B] = false,
+    [HAL_GPIO_REGISTER_C] = false,
+    [HAL_GPIO_REGISTER_D] = false,
 };
 
 static uint8_t gpio_state[3] = {
-    [HAL_GPIO_REGB] = 0,
-    [HAL_GPIO_REGC] = 0,
-    [HAL_GPIO_REGD] = 0,
+    [HAL_GPIO_REGISTER_B] = 0,
+    [HAL_GPIO_REGISTER_C] = 0,
+    [HAL_GPIO_REGISTER_D] = 0,
 };
 
 void
@@ -21,8 +21,8 @@ l293_init(const l293_channel_t *channel)
 {
     hal_gpio_init(&channel->a1);
     hal_gpio_init(&channel->a2);
-    gpio_reg_used[channel->a1.reg] = true;
-    gpio_reg_used[channel->a2.reg] = true;
+    gpio_reg_used[channel->a1.gpio_register] = true;
+    gpio_reg_used[channel->a2.gpio_register] = true;
 }
 
 void
@@ -31,23 +31,23 @@ l293_set_channel(const l293_function_t function, const l293_channel_t *channel)
     switch (function)
     {
         case L293_TURN_RIGHT:
-            gpio_state[channel->a1.reg] &= ~(1 << channel->a1.pin);
-            gpio_state[channel->a2.reg] |= (1 << channel->a2.pin);
+            gpio_state[channel->a1.gpio_register] &= ~(1 << channel->a1.pin);
+            gpio_state[channel->a2.gpio_register] |= (1 << channel->a2.pin);
             break;
         case L293_TURN_LEFT:
-            gpio_state[channel->a1.reg] |= (1 << channel->a1.pin);
-            gpio_state[channel->a2.reg] &= ~(1 << channel->a2.pin);
+            gpio_state[channel->a1.gpio_register] |= (1 << channel->a1.pin);
+            gpio_state[channel->a2.gpio_register] &= ~(1 << channel->a2.pin);
             break;
         case L293_STOP:
         default:
-            gpio_state[channel->a1.reg] &= ~(1 << channel->a1.pin);
-            gpio_state[channel->a2.reg] &= ~(1 << channel->a2.pin);
+            gpio_state[channel->a1.gpio_register] &= ~(1 << channel->a1.pin);
+            gpio_state[channel->a2.gpio_register] &= ~(1 << channel->a2.pin);
             break;
     }
 }
 
 void
-l293_enable(const hal_t0pwm_def_t *pwm)
+l293_enable(const hal_t0pwm_t *pwm)
 {
     update_gpio();
     hal_t0pwm_run(pwm);

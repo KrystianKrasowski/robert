@@ -16,27 +16,27 @@ typedef struct
 static void
 ds2_state_update(void);
 
-static hal_gpio_def_t ds2_attention = {
-    .reg = HAL_GPIO_REGB,
-    .dir = HAL_GPIO_OUTPUT,
-    .pin = 1,
+static hal_gpio_t ds2_attention = {
+    .gpio_register = HAL_GPIO_REGISTER_B,
+    .direction     = HAL_GPIO_OUTPUT,
+    .pin           = 1,
 };
 
-static const hal_spi_def_t spi = {
-    .interrupts = 1,
-    .order      = HAL_SPI_BIT_ORDER_LSB_FIRST,
-    .cpol       = HAL_SPI_CLOCK_POLARITY_FALLING_RISING,
-    .cpha       = HAL_SPI_CLOCK_PHASE_SETUP_SAMPLE,
-    .presc      = HAL_SPI_PRESCALLER_32,
+static const hal_spi_t spi = {
+    .interrupts     = 1,
+    .order          = HAL_SPI_BIT_ORDER_LSB_FIRST,
+    .clock_polarity = HAL_SPI_CLOCK_POLARITY_FALLING_RISING,
+    .clock_phase    = HAL_SPI_CLOCK_PHASE_SETUP_SAMPLE,
+    .prescaller     = HAL_SPI_PRESCALLER_32,
 };
 
-static const hal_t1ctc_def_t t1ctc = {
+static const hal_t1ctc_t t1ctc = {
     .prescaller       = HAL_TIMER_PRESCALLER_8,
     .resolution       = 16000,
     .output_compare_b = 200,
 };
 
-static const hal_t1int_cfg_t t1int = {
+static const hal_t1int_t t1int = {
     .output_compare_a = 1,
     .output_compare_b = 1,
 };
@@ -71,7 +71,7 @@ dualshock2_init(void)
     hal_gpio_init(&ds2_attention);
     hal_gpio_write(&ds2_attention, HAL_GPIO_HIGH);
     hal_t1ctc_init(&t1ctc);
-    hal_t1int_configure(&t1int);
+    hal_t1int_init(&t1int);
     hal_spi_master_init(&spi);
     hal_t1ctc_run(&t1ctc);
 }

@@ -10,9 +10,9 @@ volatile static uint16_t _raw_cmd[33]    = {0};
 void
 infrared_pilot_init()
 {
-    hal_t1int_cfg_t config = {.timer_overflow = 1, .input_capture = 1};
+    hal_t1int_t config = {.timer_overflow = 1, .input_capture = 1};
 
-    hal_t1int_configure(&config);
+    hal_t1int_init(&config);
     // 8MHz clock frequency is assumed here
     hal_t1nrm_run(HAL_TIMER_PRESCALLER_8);
 }
