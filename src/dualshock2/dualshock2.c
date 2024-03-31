@@ -1,8 +1,9 @@
 #include "dualshock2.h"
 #include <avrhal/gpio.h>
 #include <avrhal/spi.h>
-#include <avrhal/t1ctc.h>
-#include <avrhal/t1int.h>
+#include <avrhal/timer1.h>
+#include <avrhal/timer1_ctc.h>
+#include <avrhal/timer1_interrupts.h>
 
 typedef struct
 {
@@ -17,9 +18,8 @@ static void
 ds2_state_update(void);
 
 static hal_gpio_t ds2_attention = {
-    .gpio_register = HAL_GPIO_REGISTER_B,
-    .direction     = HAL_GPIO_OUTPUT,
-    .pin           = 1,
+    .pin       = HAL_GPIO_PB1,
+    .direction = HAL_GPIO_OUTPUT,
 };
 
 static const hal_spi_t spi = {
@@ -29,14 +29,13 @@ static const hal_spi_t spi = {
     .clock_phase    = HAL_SPI_CLOCK_PHASE_SETUP_SAMPLE,
     .prescaller     = HAL_SPI_PRESCALLER_32,
 };
-
-static const hal_t1ctc_t t1ctc = {
-    .prescaller       = HAL_TIMER_PRESCALLER_8,
+//HAL_TIMER_PRESCALLER_8
+static const hal_timer1_ctc_t timer1_ctc = {
     .resolution       = 16000,
     .output_compare_b = 200,
 };
 
-static const hal_t1int_t t1int = {
+static const hal_timer1_interrupts_t timer1_interrupts = {
     .output_compare_a = 1,
     .output_compare_b = 1,
 };
@@ -70,10 +69,10 @@ dualshock2_init(void)
 {
     hal_gpio_init(&ds2_attention);
     hal_gpio_write(&ds2_attention, HAL_GPIO_HIGH);
-    hal_t1ctc_init(&t1ctc);
-    hal_t1int_init(&t1int);
+    hal_timer1_ctc_init(&timer1_ctc);
+    hal_timer1_interrupts_init(&timer1_interrupts);
     hal_spi_master_init(&spi);
-    hal_t1ctc_run(&t1ctc);
+    hal_timer1_run(HAL_TIMER_PRESCALLER_8);
 }
 
 uint16_t

@@ -2,7 +2,9 @@
 #define _L293_H
 
 #include <avrhal/gpio.h>
-#include <avrhal/t0pwm.h>
+#include <avrhal/std.h>
+#include <avrhal/timer0.h>
+#include <avrhal/timer0_pwm.h>
 #include <stdint.h>
 
 typedef struct
@@ -25,7 +27,7 @@ void
 l293_set_channel(const l293_function_t function, const l293_channel_t *channel);
 
 void
-l293_enable(const hal_t0pwm_t *pwm);
+l293_enable(const hal_timer_prescaller_t prescaller);
 
 void
 l293_free_running_stop(void);

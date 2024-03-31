@@ -1,44 +1,50 @@
 #include "l293.h"
 #include "motion.h"
 #include <avrhal/gpio.h>
-#include <avrhal/t0pwm.h>
+#include <avrhal/timer0_pwm.h>
 
 static hal_gpio_t pwm_gpio = {
-    .gpio_register = HAL_GPIO_REGISTER_D,
-    .direction     = HAL_GPIO_OUTPUT,
-    .pin           = 6,
+    .direction = HAL_GPIO_OUTPUT,
+    .pin       = HAL_GPIO_PD6,
 };
 
-static hal_t0pwm_t pwm = {
-    .mode       = HAL_T0PWM_MODE_PHASE_CORRECT,
-    .channel_a  = {HAL_T0PWM_CHANNEL_NON_INVERTING, 70},
-    .channel_b  = {HAL_T0PWM_CHANNEL_DISCONNECTED, 0},
-    .prescaller = HAL_TIMER_PRESCALLER_256,
+static hal_timer0_pwm_t pwm = {
+    .mode = HAL_TIMER0_PWM_PHASE_CORRECT,
+    .channel_a =
+        {
+            .mode       = HAL_TIMER0_PWM_CHANNEL_NON_INVERTING,
+            .duty_cycle = 70,
+        },
+    .channel_b =
+        {
+            .mode       = HAL_TIMER0_PWM_CHANNEL_DISCONNECTED,
+            .duty_cycle = 0,
+        },
 };
 
 static l293_channel_t motors[4] = {
     [MOTION_MOTOR_LEFT_FRONT] =
         {
-            .a1 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 3},
-            .a2 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 2},
+            .a1 = {HAL_GPIO_PC3, HAL_GPIO_OUTPUT},
+            .a2 = {HAL_GPIO_PC2, HAL_GPIO_OUTPUT},
         },
 
     [MOTION_MOTOR_LEFT_REAR] =
         {
-            .a1 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 5},
-            .a2 = {HAL_GPIO_REGISTER_C, HAL_GPIO_OUTPUT, 4},
+            .a1 = {HAL_GPIO_PC5, HAL_GPIO_OUTPUT},
+            .a2 = {HAL_GPIO_PC4, HAL_GPIO_OUTPUT},
         },
 
     [MOTION_MOTOR_RIGHT_FRONT] =
         {
-            .a1 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 0},
-            .a2 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 1},
+            .a1 = {HAL_GPIO_PD0, HAL_GPIO_OUTPUT},
+            .a2 = {HAL_GPIO_PD1, HAL_GPIO_OUTPUT},
         },
 
     [MOTION_MOTOR_RIGHT_REAR] =
         {
-            .a1 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 2},
-            .a2 = {HAL_GPIO_REGISTER_D, HAL_GPIO_OUTPUT, 3},
+            .a1 = {HAL_GPIO_PD2, HAL_GPIO_OUTPUT},
+            .a2 = {HAL_GPIO_PD3, HAL_GPIO_OUTPUT},
         },
 };
 
@@ -51,7 +57,7 @@ motion_init(void)
     }
 
     hal_gpio_init(&pwm_gpio);
-    hal_t0pwm_init(&pwm);
+    hal_timer0_pwm_init(&pwm);
 }
 
 void
@@ -77,7 +83,7 @@ motion_set(const motion_t *motion)
 void
 motion_run(void)
 {
-    l293_enable(&pwm);
+    l293_enable(HAL_TIMER_PRESCALLER_256);
 }
 
 void
