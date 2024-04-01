@@ -29,7 +29,7 @@ static const hal_spi_t spi = {
     .clock_phase    = HAL_SPI_CLOCK_PHASE_SETUP_SAMPLE,
     .prescaller     = HAL_SPI_PRESCALLER_32,
 };
-//HAL_TIMER_PRESCALLER_8
+
 static const hal_timer1_ctc_t timer1_ctc = {
     .resolution       = 16000,
     .output_compare_b = 200,
@@ -118,14 +118,14 @@ hal_spi_transfer_complete_isr(const uint8_t chr)
 }
 
 void
-hal_t1int_output_compare_a_isr(void)
+hal_timer1_output_compare_a_isr(void)
 {
     ds2_communication.start = 1;
     ds2_communication.wait  = 1;
 }
 
 void
-hal_t1int_output_compare_b_isr(void)
+hal_timer1_output_compare_b_isr(void)
 {
     if (ds2_communication.wait)
     {

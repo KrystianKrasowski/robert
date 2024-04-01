@@ -13,13 +13,14 @@ static hal_timer0_pwm_t pwm = {
     .channel_a =
         {
             .mode       = HAL_TIMER0_PWM_CHANNEL_NON_INVERTING,
-            .duty_cycle = 70,
+            .duty_cycle = 75,
         },
     .channel_b =
         {
             .mode       = HAL_TIMER0_PWM_CHANNEL_DISCONNECTED,
             .duty_cycle = 0,
         },
+    .prescaller = HAL_TIMER_PRESCALLER_256,
 };
 
 static l293_channel_t motors[4] = {
@@ -83,13 +84,13 @@ motion_set(const motion_t *motion)
 void
 motion_run(void)
 {
-    l293_enable(HAL_TIMER_PRESCALLER_256);
+    l293_enable(&pwm);
 }
 
 void
 motion_stop_running(void)
 {
-    l293_free_running_stop();
+    l293_free_running_stop(&pwm);
 }
 
 void

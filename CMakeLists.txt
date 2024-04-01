@@ -9,7 +9,7 @@ include(FetchContent)
 FetchContent_Declare(
     avrhal
     GIT_REPOSITORY https://github.com/KrystianKrasowski/atmega88pa-hal.git
-    GIT_TAG main
+    GIT_TAG 2.0.0
 )
 
 FetchContent_MakeAvailable(avrhal)
