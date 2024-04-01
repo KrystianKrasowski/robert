@@ -1,0 +1,41 @@
+{
+    "version": 7,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 23,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "avr-release",
+            "displayName": "Production build for AVR device",
+            "generator": "Unix Makefiles",
+            "toolchainFile": "./cmake/avr-gcc.cmake",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "test-native",
+            "displayName": "Testing build for native host",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_TESTS": "TRUE",
+                "UNITY_EXTENSION_FIXTURE": "TRUE"
+            }
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "default",
+            "displayName": "Tests for native \"imposter\" build",
+            "configurePreset": "test-native",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}

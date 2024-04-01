@@ -1,6 +1,6 @@
 #include "infrared_pilot.h"
-#include <avrhal/t1int.h>
-#include <avrhal/t1nrm.h>
+#include <avrhal/timer1.h>
+#include <avrhal/timer1_interrupts.h>
 
 volatile static uint8_t  _overflows      = 0;
 volatile static uint8_t  _command_ready  = 0;
@@ -10,11 +10,14 @@ volatile static uint16_t _raw_cmd[33]    = {0};
 void
 infrared_pilot_init()
 {
-    hal_t1int_cfg_t config = {.timer_overflow = 1, .input_capture = 1};
+    hal_timer1_interrupts_t interrupts = {
+        .timer_overflow = 1,
+        .input_capture  = 1,
+    };
 
-    hal_t1int_configure(&config);
+    hal_timer1_interrupts_init(&interrupts);
     // 8MHz clock frequency is assumed here
-    hal_t1nrm_run(HAL_TIMER_PRESCALLER_8);
+    hal_timer1_run(HAL_TIMER_PRESCALLER_8);
 }
 
 infrared_pilot_command_t
@@ -63,9 +66,9 @@ infrared_pilot_release(void)
 }
 
 void
-hal_t1int_input_capture_isr(const uint16_t value)
+hal_timer1_input_capture_isr(const uint16_t value)
 {
-    hal_t1nrm_set(0);
+    hal_timer1_set(0);
     ++_captures_count;
     _overflows = 0;
 
@@ -82,7 +85,7 @@ hal_t1int_input_capture_isr(const uint16_t value)
 }
 
 void
-hal_t1int_timer_overflow_isr(void)
+hal_timer1_timer_overflow_isr(void)
 {
     ++_overflows;
     if (_overflows > 1)

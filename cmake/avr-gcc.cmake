@@ -1,0 +1,6 @@
+set(CMAKE_C_COMPILER avr-gcc)
+set(CMAKE_AR avr-ar)
+set(CMAKE_OBJCOPY avr-objcopy)
+set(CMAKE_OBJDUMP avr-objdump)
+set(CMAKE_COMMAND_SIZE avr-size)
+set(CMAKE_C_FLAGS "-mmcu=${MCU} -Wall -Os -fshort-enums --param=min-pagesize=0")

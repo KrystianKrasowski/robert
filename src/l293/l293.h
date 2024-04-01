@@ -2,13 +2,14 @@
 #define _L293_H
 
 #include <avrhal/gpio.h>
-#include <avrhal/t0pwm.h>
+#include <avrhal/std.h>
+#include <avrhal/timer0_pwm.h>
 #include <stdint.h>
 
 typedef struct
 {
-    hal_gpio_def_t a1;
-    hal_gpio_def_t a2;
+    hal_gpio_t a1;
+    hal_gpio_t a2;
 } l293_channel_t;
 
 typedef enum
@@ -25,10 +26,10 @@ void
 l293_set_channel(const l293_function_t function, const l293_channel_t *channel);
 
 void
-l293_enable(const hal_t0pwm_def_t *pwm);
+l293_enable(const hal_timer0_pwm_t *pwm);
 
 void
-l293_free_running_stop(void);
+l293_free_running_stop(const hal_timer0_pwm_t *pwm);
 
 void
 l293_fast_stop(void);
