@@ -67,8 +67,9 @@ static volatile uint8_t response[9] = {0};
 void
 dualshock2_init(void)
 {
-    hal_gpio_init(&ds2_attention);
-    hal_gpio_write(&ds2_attention, HAL_GPIO_HIGH);
+    hal_gpio_define(&ds2_attention);
+    hal_gpio_set(&ds2_attention, HAL_GPIO_HIGH);
+    hal_gpio_update();
     hal_timer1_ctc_init(&timer1_ctc);
     hal_timer1_interrupts_init(&timer1_interrupts);
     hal_spi_master_init(&spi);
@@ -81,7 +82,8 @@ dualshock2_read(void)
     if (ds2_communication.start)
     {
         ds2_communication.start = 0;
-        hal_gpio_write(&ds2_attention, HAL_GPIO_LOW);
+        hal_gpio_set(&ds2_attention, HAL_GPIO_LOW);
+        hal_gpio_update();
     }
 
     if (ds2_communication.transmit)
@@ -94,7 +96,8 @@ dualshock2_read(void)
     if (ds2_communication.finish)
     {
         ds2_communication.finish = 0;
-        hal_gpio_write(&ds2_attention, HAL_GPIO_HIGH);
+        hal_gpio_set(&ds2_attention, HAL_GPIO_HIGH);
+        hal_gpio_update();
         ds2_communication.command_index = 0;
         ds2_state_update();
     }
