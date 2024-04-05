@@ -2,7 +2,7 @@
 #include <stdbool.h>
 
 void
-l293_init(const l293_channel_t *channel)
+l293_init(l293_channel_t const *channel)
 {
     hal_gpio_define(&channel->a1);
     hal_gpio_define(&channel->a2);
@@ -10,7 +10,7 @@ l293_init(const l293_channel_t *channel)
 }
 
 void
-l293_set_channel(const l293_function_t function, const l293_channel_t *channel)
+l293_set_channel(l293_function_t const function, l293_channel_t const *channel)
 {
     switch (function)
     {
@@ -31,14 +31,14 @@ l293_set_channel(const l293_function_t function, const l293_channel_t *channel)
 }
 
 void
-l293_enable(const hal_timer0_pwm_t *pwm)
+l293_enable(hal_timer0_pwm_t const *pwm)
 {
     hal_gpio_update();
     hal_timer0_pwm_run(pwm);
 }
 
 void
-l293_free_running_stop(const hal_timer0_pwm_t *pwm)
+l293_free_running_stop(hal_timer0_pwm_t const *pwm)
 {
     hal_gpio_update();
     hal_timer0_pwm_stop(pwm);
