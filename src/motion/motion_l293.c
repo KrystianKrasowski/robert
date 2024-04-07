@@ -57,12 +57,13 @@ motion_init(void)
         l293_init(&motors[i]);
     }
 
-    hal_gpio_init(&pwm_gpio);
+    hal_gpio_define(&pwm_gpio);
+    hal_gpio_update();
     hal_timer0_pwm_init(&pwm);
 }
 
 void
-motion_set(const motion_t *motion)
+motion_set(motion_t const *motion)
 {
     l293_function_t function;
     switch (motion->direction)

@@ -20,16 +20,16 @@ typedef enum
 } l293_function_t;
 
 void
-l293_init(const l293_channel_t *channel);
+l293_init(l293_channel_t const *channel);
 
 void
-l293_set_channel(const l293_function_t function, const l293_channel_t *channel);
+l293_set_channel(l293_function_t const function, l293_channel_t const *channel);
 
 void
-l293_enable(const hal_timer0_pwm_t *pwm);
+l293_enable(hal_timer0_pwm_t const *pwm);
 
 void
-l293_free_running_stop(const hal_timer0_pwm_t *pwm);
+l293_free_running_stop(hal_timer0_pwm_t const *pwm);
 
 void
 l293_fast_stop(void);

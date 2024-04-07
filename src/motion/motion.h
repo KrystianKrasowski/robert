@@ -26,7 +26,7 @@ void
 motion_init(void);
 
 void
-motion_set(const motion_t *motion);
+motion_set(motion_t const *motion);
 
 void
 motion_run(void);
