@@ -9,7 +9,7 @@ include(FetchContent)
 FetchContent_Declare(
     avrhal
     GIT_REPOSITORY https://github.com/KrystianKrasowski/atmega88pa-hal.git
-    GIT_TAG feature/timer1-pwm
+    GIT_TAG 3.1.0
 )
 
 FetchContent_MakeAvailable(avrhal)
