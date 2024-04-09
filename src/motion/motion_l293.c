@@ -3,11 +3,6 @@
 #include <avrhal/gpio.h>
 #include <avrhal/timer0_pwm.h>
 
-static hal_gpio_t pwm_gpio = {
-    .direction = HAL_GPIO_OUTPUT,
-    .pin       = HAL_GPIO_PD6,
-};
-
 static hal_timer0_pwm_t pwm = {
     .mode = HAL_TIMER0_PWM_PHASE_CORRECT,
     .channel_a =
@@ -57,8 +52,6 @@ motion_init(void)
         l293_init(&motors[i]);
     }
 
-    hal_gpio_define(&pwm_gpio);
-    hal_gpio_update();
     hal_timer0_pwm_init(&pwm);
 }
 
