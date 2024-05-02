@@ -9,7 +9,7 @@ include(FetchContent)
 FetchContent_Declare(
     atmega88pa-hal
     GIT_REPOSITORY https://github.com/KrystianKrasowski/atmega88pa-hal.git
-    GIT_TAG feature/interface-separation
+    GIT_TAG 3.2.0
 )
 
 FetchContent_MakeAvailable(atmega88pa-hal)
