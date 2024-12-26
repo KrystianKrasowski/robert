@@ -1,12 +1,20 @@
 #include "dualshock2.h"
+#include "avr/io.h"
 #include "unity_config.h"
-#include <avr/io.h>
+#include <avrhal/spi.h>
+#include <avrhal/timer1_interrupts.h>
 #include <unity.h>
 
 void
 setUp(void)
 {
-
+    DDRB   = 0;
+    PORTB  = 0;
+    TCCR1A = 0;
+    TCCR1B = 0;
+    OCR1A  = 0;
+    OCR1B  = 0;
+    TIMSK1 = 0;
 }
 
 void
@@ -141,7 +149,7 @@ void
 should_pull_ds2_attention_pin_low_on_communication_start(void)
 {
     // given
-    dualshock2_handle_request_prepare_isr();
+    hal_timer1_output_compare_a_isr();
 
     // when
     uint16_t cmd = dualshock2_read();
@@ -155,8 +163,8 @@ void
 should_put_data_byte_on_transmit(void)
 {
     // given
-    dualshock2_handle_request_prepare_isr();
-    dualshock2_handle_request_transmit_isr();
+    hal_timer1_output_compare_a_isr();
+    hal_timer1_output_compare_b_isr();
 
     // when
     // when
@@ -171,13 +179,13 @@ should_read_control_command(uint8_t  response_sequence[],
                             uint16_t expected_command)
 {
     // given
-    dualshock2_handle_request_prepare_isr();
-    dualshock2_handle_request_transmit_isr();
+    hal_timer1_output_compare_a_isr();
+    hal_timer1_output_compare_b_isr();
 
     for (int i = 0; i < 9; i++)
     {
         dualshock2_read();
-        dualshock2_handle_response_isr(response_sequence[i]);
+        hal_spi_transfer_complete_isr(response_sequence[i]);
     }
 
     // when

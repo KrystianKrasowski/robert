@@ -23,7 +23,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "ROBERT_ENABLE_TESTS": "TRUE",
+                "ENABLE_TESTS": "TRUE",
                 "UNITY_EXTENSION_FIXTURE": "TRUE"
             }
         }
