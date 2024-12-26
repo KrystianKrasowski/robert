@@ -1,0 +1,12 @@
+# add_subdirectory(atmega88pa-stub)
+# add_subdirectory(dualshock2)
+# add_subdirectory(motion)
+
+if(${ENABLE_TESTS})
+    target_compile_definitions(avrhal INTERFACE __AVR_ATmega88PA__)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(dualshock2)
+    add_subdirectory(motion)
+    add_subdirectory(control)
+endif()

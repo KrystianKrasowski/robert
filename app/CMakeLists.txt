@@ -1,11 +1,16 @@
 add_executable(${PROJECT_NAME} main.c)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${PROJECT_SOURCE_DIR}/include/control
+    ${PROJECT_SOURCE_DIR}/include/motion
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
     control
-    dualshock2
-    infrared_pilot
-    l293
     motion
+    dualshock2
+    l293
+    atmega88pa-hal
 )
 
 add_custom_command(

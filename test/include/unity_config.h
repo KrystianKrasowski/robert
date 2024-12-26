@@ -1,4 +1,4 @@
-#define RUN_TEST(TestFunc, ...)                                                \
+#define RUN_PARAM_TEST(TestFunc, ...)                                          \
     {                                                                          \
         Unity.CurrentTestName       = #TestFunc "(" #__VA_ARGS__ ")";          \
         Unity.CurrentTestLineNumber = __LINE__;                                \
