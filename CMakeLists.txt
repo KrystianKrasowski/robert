@@ -4,15 +4,10 @@ set(MCU atmega88pa)
 
 project(robert VERSION 2.2.0 LANGUAGES C)
 
-include(FetchContent)
+include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
 
-FetchContent_Declare(
-    atmega88pa-hal
-    GIT_REPOSITORY https://github.com/KrystianKrasowski/atmega88pa-hal.git
-    GIT_TAG 3.2.0
-)
+option(ROBERT_ENABLE_TESTS OFF)
 
-FetchContent_MakeAvailable(atmega88pa-hal)
-
+add_subdirectory(test)
 add_subdirectory(app)
 add_subdirectory(src)
