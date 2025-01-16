@@ -59,8 +59,8 @@ void
 dualshock2_init(void)
 {
     dualshock2_init_attention_pin();
-    dualshock2_init_timer1();
     dualshock2_init_spi_master();
+    dualshock2_init_timer1();
 }
 
 static void
@@ -68,16 +68,6 @@ dualshock2_init_attention_pin(void)
 {
     DS2_ATTENTION_DDR |= (1 << DS2_ATTENTION_DDR_BIT);
     DS2_ATTENTION_PORT |= (1 << DS2_ATTENTION_PORT_BIT);
-}
-
-static void
-dualshock2_init_timer1(void)
-{
-    // configure timer1 in CTC mode and 8 prescaller
-    TCCR1B |= (1 << WGM12) | (1 << CS11);
-
-    // configure timer1 with interrupts on both channels a and b
-    TIMSK1 |= (1 << OCIE1A) | (1 << OCIE1B);
 }
 
 static void
@@ -119,6 +109,22 @@ dualshock2_init_spi_master(void)
     // write to SPCR and SPSR as one operation due to performence optimaization
     SPCR = spcr_value;
     SPSR = spsr_value;
+}
+
+static void
+dualshock2_init_timer1(void)
+{
+    // configure timer1 in CTC mode and 8 prescaller
+    TCCR1B |= (1 << WGM12) | (1 << CS11);
+
+    // configure controller state read each 16 ms
+    OCR1A = 16000;
+
+    // configure controller read start delay for 200 us
+    OCR1B = 200;
+
+    // configure timer1 with interrupts on both channels a and b
+    TIMSK1 |= (1 << OCIE1A) | (1 << OCIE1B);
 }
 
 ISR(TIMER1_COMPA_vect)

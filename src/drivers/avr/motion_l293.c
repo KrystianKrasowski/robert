@@ -38,6 +38,8 @@ motion_init(void)
 void
 motion_apply(motion_t *self, bool is_soft_stop)
 {
+    motion_pwm_stop();
+
     motion_gpio_set(
         self->left_front, &PORTC, LEFT_FRONT_A1_BIT, LEFT_FRONT_A2_BIT);
 
@@ -50,12 +52,7 @@ motion_apply(motion_t *self, bool is_soft_stop)
     motion_gpio_set(
         self->right_rear, &PORTD, RIGHT_REAR_A1_BIT, RIGHT_REAR_A2_BIT);
 
-    if (is_soft_stop)
-    {
-        motion_pwm_stop();
-    }
-
-    else
+    if (!is_soft_stop)
     {
         motion_pwm_run();
     }
@@ -64,21 +61,27 @@ motion_apply(motion_t *self, bool is_soft_stop)
 static void
 motion_gpio_init(void)
 {
+    uint8_t ddrc_mask = DDRC;
+    uint8_t ddrd_mask = DDRD;
+
     // set left front motor l293 channel pins as output
-    DDRC |= (1 << LEFT_FRONT_A1_BIT);
-    DDRC |= (1 << LEFT_FRONT_A2_BIT);
+    ddrc_mask |= (1 << LEFT_FRONT_A1_BIT);
+    ddrc_mask |= (1 << LEFT_FRONT_A2_BIT);
 
     // set right front motor l293 channel pins as output
-    DDRD |= (1 << RIGHT_FRONT_A1_BIT);
-    DDRD |= (1 << RIGHT_FRONT_A2_BIT);
+    ddrd_mask |= (1 << RIGHT_FRONT_A1_BIT);
+    ddrd_mask |= (1 << RIGHT_FRONT_A2_BIT);
 
     // set left rear motor l293 channel pins as output
-    DDRC |= (1 << LEFT_REAR_A1_BIT);
-    DDRC |= (1 << LEFT_REAR_A2_BIT);
+    ddrc_mask |= (1 << LEFT_REAR_A1_BIT);
+    ddrc_mask |= (1 << LEFT_REAR_A2_BIT);
 
     // set right rear motor l293 channel pins as output
-    DDRD |= (1 << RIGHT_REAR_A1_BIT);
-    DDRD |= (1 << RIGHT_REAR_A2_BIT);
+    ddrd_mask |= (1 << RIGHT_REAR_A1_BIT);
+    ddrd_mask |= (1 << RIGHT_REAR_A2_BIT);
+
+    DDRC = ddrc_mask;
+    DDRD = ddrd_mask;
 }
 
 static void
@@ -90,10 +93,10 @@ motion_pwm_init(void)
     TCCR0B &= ~(1 << WGM02);
 
     // set OC0A as output for non-inverting mode
-    OC0A_DDR = (1 << OC0A_BIT);
+    OC0A_DDR |= (1 << OC0A_BIT);
 
-    // set duty cycle to fixed 75%
-    OCR0A = 0xbf;
+    // set duty cycle to fixed 85%
+    OCR0A = 0xd9;
 }
 
 static void

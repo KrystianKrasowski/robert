@@ -1,4 +1,4 @@
-#include "dualshock2.h"
+#include "drivers/dualshock2.h"
 #include "unity_config.h"
 #include <avr/io.h>
 #include <unity.h>
@@ -6,14 +6,6 @@
 void
 setUp(void)
 {
-    DDRB   = 0;
-    PORTB  = 0;
-    TCCR1A = 0;
-    TCCR1B = 0;
-    TIMSK1 = 0;
-    SPCR   = 0;
-    SPSR   = 0;
-    SPDR   = 0;
 }
 
 void
@@ -200,6 +192,7 @@ main(void)
     UNITY_BEGIN();
     RUN_TEST(should_set_dualshock2_attention_pin_as_output_and_high);
     RUN_TEST(should_set_timer1_in_ctc_mode);
+    RUN_TEST(should_set_timer1_channels_resolution);
     RUN_TEST(should_run_timer1_with_8_prescaller);
     RUN_TEST(should_enable_output_compare_interrupt_on_timer1_channels_a_b);
     RUN_TEST(should_set_spi_in_master_mode);
