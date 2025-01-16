@@ -1,4 +1,4 @@
-#include "vehicle_command_port.h"
+#include "drivers/dualshock2.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -55,40 +55,12 @@ static volatile ds2_communication_t ds2_communication = {
 
 static volatile uint8_t response[9] = {0};
 
-
-
 void
-vehicle_command_init(void)
+dualshock2_init(void)
 {
     dualshock2_init_attention_pin();
     dualshock2_init_timer1();
     dualshock2_init_spi_master();
-}
-
-void
-vehicle_command_receive(vehicle_t *self)
-{
-    if (ds2_communication.start)
-    {
-        ds2_communication.start = 0;
-        DS2_ATTENTION_PORT &= ~(1 << DS2_ATTENTION_PORT_BIT);
-    }
-
-    if (ds2_communication.transmit)
-    {
-        ds2_communication.transmit = 0;
-        dualshock2_spi_transmit_next();
-    }
-
-    if (ds2_communication.finish)
-    {
-        ds2_communication.finish = 0;
-        DS2_ATTENTION_PORT |= (1 << DS2_ATTENTION_DDR_BIT);
-        ds2_communication.command_index = 0;
-        dualshock2_state_update();
-    }
-
-    return last_state;
 }
 
 static void
@@ -194,6 +166,32 @@ dualshock2_handle_response_isr(const uint8_t response_byte)
     {
         ds2_communication.finish = 1;
     }
+}
+
+uint16_t
+dualshock2_read(void)
+{
+    if (ds2_communication.start)
+    {
+        ds2_communication.start = 0;
+        DS2_ATTENTION_PORT &= ~(1 << DS2_ATTENTION_PORT_BIT);
+    }
+
+    if (ds2_communication.transmit)
+    {
+        ds2_communication.transmit = 0;
+        dualshock2_spi_transmit_next();
+    }
+
+    if (ds2_communication.finish)
+    {
+        ds2_communication.finish = 0;
+        DS2_ATTENTION_PORT |= (1 << DS2_ATTENTION_DDR_BIT);
+        ds2_communication.command_index = 0;
+        dualshock2_state_update();
+    }
+
+    return last_state;
 }
 
 static void

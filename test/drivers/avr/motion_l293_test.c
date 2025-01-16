@@ -1,6 +1,6 @@
+#include "drivers/motion.h"
 #include "unity.h"
 #include "unity_config.h"
-#include "vehicle_motion_port.h"
 #include <avr/io.h>
 
 uint8_t DDRD   = 0;
@@ -32,7 +32,7 @@ void
 should_init_gpio(void)
 {
     // when
-    vehicle_motion_init();
+    motion_init();
 
     // then
     TEST_ASSERT_BIT_HIGH(DDC2, DDRC);
@@ -50,7 +50,7 @@ void
 should_init_timer0_pwm_phase_correct(void)
 {
     // when
-    vehicle_motion_init();
+    motion_init();
 
     // then
     TEST_ASSERT_BIT_HIGH(WGM00, TCCR0A);
@@ -62,7 +62,7 @@ void
 should_init_timer0_pwm_channel_a_duty_cycle(void)
 {
     // when
-    vehicle_motion_init();
+    motion_init();
 
     // then
     TEST_ASSERT_BIT_HIGH(OC0A_BIT, OC0A_DDR);
@@ -70,63 +70,50 @@ should_init_timer0_pwm_channel_a_duty_cycle(void)
 }
 
 void
-should_set_left_front_motor_gpio(vehicle_motion_t motion,
-                                 uint8_t          expected_portc)
+should_set_left_front_motor_gpio(motion_direction_t direction,
+                                 uint8_t            expected_portc)
 {
-    // given
-    vehicle_motion_init();
-    vehicle_t vehicle = {.motor_left_front = motion};
-
     // when
-    vehicle_motion_apply(&vehicle);
+    motion_t motion = {.left_front = direction};
+    motion_apply(&motion, false);
 
     // then
     TEST_ASSERT_BITS_HIGH(expected_portc, PORTC);
 }
 
 void
-should_set_right_front_motor_gpio(vehicle_motion_t motion,
-                                  uint8_t          expected_portd)
+should_set_right_front_motor_gpio(motion_direction_t direction,
+                                  uint8_t            expected_portd)
 {
-    // given
-    vehicle_motion_init();
-    vehicle_t vehicle = {.motor_right_front = motion};
-
     // when
-    vehicle_motion_apply(&vehicle);
+    motion_t motion = {.right_front = direction};
+    motion_apply(&motion, false);
 
     // then
-    // if ((mask & expected) != (mask & actual))
     TEST_ASSERT_BITS_HIGH(expected_portd, PORTD);
 }
 
 void
-should_set_left_rear_motor_gpio(vehicle_motion_t motion, uint8_t expected_portc)
+should_set_left_rear_motor_gpio(motion_direction_t direction,
+                                uint8_t            expected_portc)
 {
-    // given
-    vehicle_motion_init();
-    vehicle_t vehicle = {.motor_left_rear = motion};
-
     // when
-    vehicle_motion_apply(&vehicle);
+    motion_t motion = {.left_rear = direction};
+    motion_apply(&motion, false);
 
     // then
     TEST_ASSERT_BITS_HIGH(expected_portc, PORTC);
 }
 
 void
-should_set_right_rear_motor_gpio(vehicle_motion_t motion,
-                                 uint8_t          expected_portd)
+should_set_right_rear_motor_gpio(motion_direction_t direction,
+                                 uint8_t            expected_portd)
 {
-    // given
-    vehicle_motion_init();
-    vehicle_t vehicle = {.motor_right_rear = motion};
-
     // when
-    vehicle_motion_apply(&vehicle);
+    motion_t motion = {.right_rear = direction};
+    motion_apply(&motion, false);
 
     // then
-    // if ((mask & expected) != (mask & actual))
     TEST_ASSERT_BITS_HIGH(expected_portd, PORTD);
 }
 
@@ -134,15 +121,13 @@ void
 should_run_pwm_with_256_prescaller(void)
 {
     // given
-    vehicle_motion_init();
-    vehicle_t vehicle = {.current_command   = COMMAND_MOVE_FACE_FORWARD,
-                         .motor_left_front  = MOTION_FORWARD,
-                         .motor_right_front = MOTION_FORWARD,
-                         .motor_left_rear   = MOTION_FORWARD,
-                         .motor_right_rear  = MOTION_FORWARD};
+    motion_t motion = {.left_front  = MOTION_FORWARD,
+                       .right_front = MOTION_FORWARD,
+                       .left_rear   = MOTION_FORWARD,
+                       .right_rear  = MOTION_FORWARD};
 
     // when
-    vehicle_motion_apply(&vehicle);
+    motion_apply(&motion, false);
 
     // then
     TEST_ASSERT_BIT_LOW(COM0A0, TCCR0A);
@@ -155,15 +140,13 @@ void
 should_stop_running(void)
 {
     // given
-    vehicle_motion_init();
-    vehicle_t vehicle = {.current_command   = COMMAND_SOFT_STOP,
-                         .motor_left_front  = MOTION_NONE,
-                         .motor_right_front = MOTION_NONE,
-                         .motor_left_rear   = MOTION_NONE,
-                         .motor_right_rear  = MOTION_NONE};
+    motion_t motion = {.left_front  = MOTION_NONE,
+                       .right_front = MOTION_NONE,
+                       .left_rear   = MOTION_NONE,
+                       .right_rear  = MOTION_NONE};
 
     // when
-    vehicle_motion_apply(&vehicle);
+    motion_apply(&motion, true);
 
     // then
     TEST_ASSERT_EQUAL(0, PORTC);
@@ -176,15 +159,13 @@ void
 should_stop_immediately(void)
 {
     // given
-    vehicle_motion_init();
-    vehicle_t vehicle = {.current_command   = COMMAND_HARD_STOP,
-                         .motor_left_front  = MOTION_NONE,
-                         .motor_right_front = MOTION_NONE,
-                         .motor_left_rear   = MOTION_NONE,
-                         .motor_right_rear  = MOTION_NONE};
+    motion_t motion = {.left_front  = MOTION_NONE,
+                       .right_front = MOTION_NONE,
+                       .left_rear   = MOTION_NONE,
+                       .right_rear  = MOTION_NONE};
 
     // when
-    vehicle_motion_apply(&vehicle);
+    motion_apply(&motion, false);
 
     // then
     TEST_ASSERT_EQUAL(0, PORTC);

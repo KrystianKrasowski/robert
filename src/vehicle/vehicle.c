@@ -1,168 +1,163 @@
 #include "vehicle.h"
-#include "vehicle_command_port.h"
-#include "vehicle_motion_port.h"
+#include "drivers/command.h"
+#include "drivers/motion.h"
 
 static void
-vehicle_motors_set(vehicle_t *self);
+vehicle_motion_set(motion_t *motion, command_t command);
 
 void
-vehicle_init(vehicle_t *self)
+vehicle_init(void)
 {
-    vehicle_command_init();
-    vehicle_motion_init();
-
-    self->current_command   = COMMAND_SOFT_STOP;
-    self->motor_left_front  = MOTION_NONE;
-    self->motor_left_rear   = MOTION_NONE;
-    self->motor_right_front = MOTION_NONE;
-    self->motor_right_rear  = MOTION_NONE;
+    command_init();
+    motion_init();
 }
 
 void
-vehicle_run(vehicle_t *self)
+vehicle_run(void)
 {
-    vehicle_command_receive(self);
-    vehicle_motors_set(self);
-    vehicle_motion_apply(self);
+    command_t current_command = command_receive();
+    motion_t motion = {};
+    vehicle_motion_set(&motion, current_command);
+    motion_apply(&motion,current_command == COMMAND_SOFT_STOP);
 }
 
 static void
-vehicle_motors_set(vehicle_t *self)
+vehicle_motion_set(motion_t *motion, command_t command)
 {
-    switch (self->current_command)
+    switch (command)
     {
         case COMMAND_MOVE_FACE_FORWARD:
-            self->motor_left_front  = MOTION_FORWARD;
-            self->motor_right_front = MOTION_FORWARD;
-            self->motor_left_rear   = MOTION_FORWARD;
-            self->motor_right_rear  = MOTION_FORWARD;
+            motion->left_front  = MOTION_FORWARD;
+            motion->right_front = MOTION_FORWARD;
+            motion->left_rear   = MOTION_FORWARD;
+            motion->right_rear  = MOTION_FORWARD;
             break;
 
         case COMMAND_MOVE_FACE_BACKWARD:
-            self->motor_left_front  = MOTION_BACKWARD;
-            self->motor_right_front = MOTION_BACKWARD;
-            self->motor_left_rear   = MOTION_BACKWARD;
-            self->motor_right_rear  = MOTION_BACKWARD;
+            motion->left_front  = MOTION_BACKWARD;
+            motion->right_front = MOTION_BACKWARD;
+            motion->left_rear   = MOTION_BACKWARD;
+            motion->right_rear  = MOTION_BACKWARD;
             break;
 
         case COMMAND_MOVE_SIDE_RIGHT:
-            self->motor_left_front  = MOTION_FORWARD;
-            self->motor_right_front = MOTION_BACKWARD;
-            self->motor_left_rear   = MOTION_BACKWARD;
-            self->motor_right_rear  = MOTION_FORWARD;
+            motion->left_front  = MOTION_FORWARD;
+            motion->right_front = MOTION_BACKWARD;
+            motion->left_rear   = MOTION_BACKWARD;
+            motion->right_rear  = MOTION_FORWARD;
             break;
 
         case COMMAND_MOVE_SIDE_LEFT:
-            self->motor_left_front  = MOTION_BACKWARD;
-            self->motor_right_front = MOTION_FORWARD;
-            self->motor_left_rear   = MOTION_FORWARD;
-            self->motor_right_rear  = MOTION_BACKWARD;
+            motion->left_front  = MOTION_BACKWARD;
+            motion->right_front = MOTION_FORWARD;
+            motion->left_rear   = MOTION_FORWARD;
+            motion->right_rear  = MOTION_BACKWARD;
             break;
 
         case COMMAND_MOVE_DIAG_FORWARD_RIGHT:
-            self->motor_left_front  = MOTION_FORWARD;
-            self->motor_right_front = MOTION_NONE;
-            self->motor_left_rear   = MOTION_NONE;
-            self->motor_right_rear  = MOTION_FORWARD;
+            motion->left_front  = MOTION_FORWARD;
+            motion->right_front = MOTION_NONE;
+            motion->left_rear   = MOTION_NONE;
+            motion->right_rear  = MOTION_FORWARD;
             break;
 
         case COMMAND_MOVE_DIAG_FORWARD_LEFT:
-            self->motor_left_front  = MOTION_NONE;
-            self->motor_right_front = MOTION_FORWARD;
-            self->motor_left_rear   = MOTION_FORWARD;
-            self->motor_right_rear  = MOTION_NONE;
+            motion->left_front  = MOTION_NONE;
+            motion->right_front = MOTION_FORWARD;
+            motion->left_rear   = MOTION_FORWARD;
+            motion->right_rear  = MOTION_NONE;
             break;
 
         case COMMAND_MOVE_DIAG_BACKWARD_RIGHT:
-            self->motor_left_front  = MOTION_NONE;
-            self->motor_right_front = MOTION_BACKWARD;
-            self->motor_left_rear   = MOTION_BACKWARD;
-            self->motor_right_rear  = MOTION_NONE;
+            motion->left_front  = MOTION_NONE;
+            motion->right_front = MOTION_BACKWARD;
+            motion->left_rear   = MOTION_BACKWARD;
+            motion->right_rear  = MOTION_NONE;
             break;
 
         case COMMAND_MOVE_DIAG_BACKWARD_LEFT:
-            self->motor_left_front  = MOTION_BACKWARD;
-            self->motor_right_front = MOTION_NONE;
-            self->motor_left_rear   = MOTION_NONE;
-            self->motor_right_rear  = MOTION_BACKWARD;
+            motion->left_front  = MOTION_BACKWARD;
+            motion->right_front = MOTION_NONE;
+            motion->left_rear   = MOTION_NONE;
+            motion->right_rear  = MOTION_BACKWARD;
             break;
 
         case COMMAND_ROTATE_SIDE_RIGHT_FORWARD:
-            self->motor_left_front  = MOTION_NONE;
-            self->motor_right_front = MOTION_FORWARD;
-            self->motor_left_rear   = MOTION_NONE;
-            self->motor_right_rear  = MOTION_FORWARD;
+            motion->left_front  = MOTION_NONE;
+            motion->right_front = MOTION_FORWARD;
+            motion->left_rear   = MOTION_NONE;
+            motion->right_rear  = MOTION_FORWARD;
             break;
 
         case COMMAND_ROTATE_SIDE_RIGHT_BACKWARD:
-            self->motor_left_front  = MOTION_NONE;
-            self->motor_right_front = MOTION_BACKWARD;
-            self->motor_left_rear   = MOTION_NONE;
-            self->motor_right_rear  = MOTION_BACKWARD;
+            motion->left_front  = MOTION_NONE;
+            motion->right_front = MOTION_BACKWARD;
+            motion->left_rear   = MOTION_NONE;
+            motion->right_rear  = MOTION_BACKWARD;
             break;
 
         case COMMAND_ROTATE_SIDE_LEFT_FORWARD:
-            self->motor_left_front  = MOTION_FORWARD;
-            self->motor_right_front = MOTION_NONE;
-            self->motor_left_rear   = MOTION_FORWARD;
-            self->motor_right_rear  = MOTION_NONE;
+            motion->left_front  = MOTION_FORWARD;
+            motion->right_front = MOTION_NONE;
+            motion->left_rear   = MOTION_FORWARD;
+            motion->right_rear  = MOTION_NONE;
             break;
 
         case COMMAND_ROTATE_SIDE_LEFT_BACKWARD:
-            self->motor_left_front  = MOTION_BACKWARD;
-            self->motor_right_front = MOTION_NONE;
-            self->motor_left_rear   = MOTION_BACKWARD;
-            self->motor_right_rear  = MOTION_NONE;
+            motion->left_front  = MOTION_BACKWARD;
+            motion->right_front = MOTION_NONE;
+            motion->left_rear   = MOTION_BACKWARD;
+            motion->right_rear  = MOTION_NONE;
             break;
 
         case COMMAND_ROTATE_RIGHT:
-            self->motor_left_front  = MOTION_FORWARD;
-            self->motor_right_front = MOTION_BACKWARD;
-            self->motor_left_rear   = MOTION_FORWARD;
-            self->motor_right_rear  = MOTION_BACKWARD;
+            motion->left_front  = MOTION_FORWARD;
+            motion->right_front = MOTION_BACKWARD;
+            motion->left_rear   = MOTION_FORWARD;
+            motion->right_rear  = MOTION_BACKWARD;
             break;
 
         case COMMAND_ROTATE_LEFT:
-            self->motor_left_front  = MOTION_BACKWARD;
-            self->motor_right_front = MOTION_FORWARD;
-            self->motor_left_rear   = MOTION_BACKWARD;
-            self->motor_right_rear  = MOTION_FORWARD;
+            motion->left_front  = MOTION_BACKWARD;
+            motion->right_front = MOTION_FORWARD;
+            motion->left_rear   = MOTION_BACKWARD;
+            motion->right_rear  = MOTION_FORWARD;
             break;
 
         case COMMAND_ROTATE_FACE_FRONT_RIGHT:
-            self->motor_left_front  = MOTION_FORWARD;
-            self->motor_right_front = MOTION_BACKWARD;
-            self->motor_left_rear   = MOTION_NONE;
-            self->motor_right_rear  = MOTION_NONE;
+            motion->left_front  = MOTION_FORWARD;
+            motion->right_front = MOTION_BACKWARD;
+            motion->left_rear   = MOTION_NONE;
+            motion->right_rear  = MOTION_NONE;
             break;
 
         case COMMAND_ROTATE_FACE_FRONT_LEFT:
-            self->motor_left_front  = MOTION_BACKWARD;
-            self->motor_right_front = MOTION_FORWARD;
-            self->motor_left_rear   = MOTION_NONE;
-            self->motor_right_rear  = MOTION_NONE;
+            motion->left_front  = MOTION_BACKWARD;
+            motion->right_front = MOTION_FORWARD;
+            motion->left_rear   = MOTION_NONE;
+            motion->right_rear  = MOTION_NONE;
             break;
 
         case COMMAND_ROTATE_FACE_REAR_RIGHT:
-            self->motor_left_front  = MOTION_NONE;
-            self->motor_right_front = MOTION_NONE;
-            self->motor_left_rear   = MOTION_BACKWARD;
-            self->motor_right_rear  = MOTION_FORWARD;
+            motion->left_front  = MOTION_NONE;
+            motion->right_front = MOTION_NONE;
+            motion->left_rear   = MOTION_BACKWARD;
+            motion->right_rear  = MOTION_FORWARD;
             break;
 
         case COMMAND_ROTATE_FACE_REAR_LEFT:
-            self->motor_left_front  = MOTION_NONE;
-            self->motor_right_front = MOTION_NONE;
-            self->motor_left_rear   = MOTION_FORWARD;
-            self->motor_right_rear  = MOTION_BACKWARD;
+            motion->left_front  = MOTION_NONE;
+            motion->right_front = MOTION_NONE;
+            motion->left_rear   = MOTION_FORWARD;
+            motion->right_rear  = MOTION_BACKWARD;
             break;
 
         case COMMAND_SOFT_STOP:
         case COMMAND_HARD_STOP:
         default:
-            self->motor_left_front  = MOTION_NONE;
-            self->motor_right_front = MOTION_NONE;
-            self->motor_left_rear   = MOTION_NONE;
-            self->motor_right_rear  = MOTION_NONE;
+            motion->left_front  = MOTION_NONE;
+            motion->right_front = MOTION_NONE;
+            motion->left_rear   = MOTION_NONE;
+            motion->right_rear  = MOTION_NONE;
     }
 }

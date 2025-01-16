@@ -1,16 +1,13 @@
 add_executable(${PROJECT_NAME} main.c)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${PROJECT_SOURCE_DIR}/include/control
-    ${PROJECT_SOURCE_DIR}/include/motion
+    ${PROJECT_SOURCE_DIR}/include
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    control
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    vehicle
+    command
     motion
-    dualshock2
-    l293
-    atmega88pa-hal
 )
 
 add_custom_command(

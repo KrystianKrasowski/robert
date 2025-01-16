@@ -1,5 +1,5 @@
-#ifndef _VEHICLE_H
-#define _VEHICLE_H
+#ifndef _VEHICLE_COMMAND_H
+#define _VEHICLE_COMMAND_H
 
 typedef enum
 {
@@ -23,28 +23,12 @@ typedef enum
     COMMAND_ROTATE_FACE_REAR_LEFT,
     COMMAND_SOFT_STOP,
     COMMAND_HARD_STOP,
-} vehicle_command_t;
-
-typedef enum
-{
-    MOTION_FORWARD,
-    MOTION_BACKWARD,
-    MOTION_NONE,
-} vehicle_motion_t;
-
-typedef struct vehicle
-{
-    vehicle_command_t current_command;
-    vehicle_motion_t motor_left_front;
-    vehicle_motion_t motor_right_front;
-    vehicle_motion_t motor_left_rear;
-    vehicle_motion_t motor_right_rear;
-} vehicle_t;
+} command_t;
 
 void
-vehicle_init(vehicle_t *self);
+command_init(void);
 
-void
-vehicle_run(vehicle_t *self);
+command_t
+command_receive(void);
 
 #endif

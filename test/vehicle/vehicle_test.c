@@ -1,8 +1,10 @@
+#include "drivers/command.h"
+#include "drivers/command_mock.h"
+#include "drivers/motion.h"
+#include "drivers/motion_mock.h"
 #include "unity.h"
 #include "unity_config.h"
 #include "vehicle.h"
-#include "vehicle_command_mock.h"
-#include "vehicle_motion_mock.h"
 
 void
 setUp(void)
@@ -15,64 +17,41 @@ tearDown(void)
 }
 
 void
-should_initialize_vehicle(void)
+should_initialize_drivers(void)
 {
-    // given
-    vehicle_t vehicle = {};
-
     // when
-    vehicle_init(&vehicle);
+    vehicle_init();
 
     // then
-    TEST_ASSERT_EQUAL(COMMAND_SOFT_STOP, vehicle.current_command);
-    TEST_ASSERT_EQUAL(MOTION_NONE, vehicle.motor_left_front);
-    TEST_ASSERT_EQUAL(MOTION_NONE, vehicle.motor_right_front);
-    TEST_ASSERT_EQUAL(MOTION_NONE, vehicle.motor_left_rear);
-    TEST_ASSERT_EQUAL(MOTION_NONE, vehicle.motor_right_rear);
+    TEST_ASSERT_TRUE(command_mock_is_initilized());
+    TEST_ASSERT_TRUE(motion_mock_is_initialized());
 }
 
 void
-should_initialize_vehicle_ports(void)
+should_run(command_t          command,
+           motion_direction_t expected_left_front,
+           motion_direction_t expected_right_front,
+           motion_direction_t expected_left_rear,
+           motion_direction_t expected_right_rear)
 {
     // given
-    vehicle_t vehicle = {};
+    command_mock_given_command(command);
 
     // when
-    vehicle_init(&vehicle);
+    vehicle_run();
 
     // then
-    TEST_ASSERT_TRUE(vehicle_command_mock_is_initilized());
-    TEST_ASSERT_TRUE(vehicle_motion_mock_is_initialized());
-}
-
-void
-should_run(vehicle_command_t command,
-           vehicle_motion_t  expected_left_front,
-           vehicle_motion_t  expected_right_front,
-           vehicle_motion_t  expected_left_rear,
-           vehicle_motion_t  expected_right_rear)
-{
-    // given
-    vehicle_t vehicle = {};
-    vehicle_init(&vehicle);
-    vehicle_command_mock_given_command(command);
-
-    // when
-    vehicle_run(&vehicle);
-
-    // then
-    TEST_ASSERT_EQUAL(expected_left_front, vehicle.motor_left_front);
-    TEST_ASSERT_EQUAL(expected_right_front, vehicle.motor_right_front);
-    TEST_ASSERT_EQUAL(expected_left_rear, vehicle.motor_left_rear);
-    TEST_ASSERT_EQUAL(expected_right_rear, vehicle.motor_right_rear);
+    TEST_ASSERT_TRUE(motion_mock_verify_left_front(expected_left_front));
+    TEST_ASSERT_TRUE(motion_mock_verify_right_front(expected_right_front));
+    TEST_ASSERT_TRUE(motion_mock_verify_left_rear(expected_left_rear));
+    TEST_ASSERT_TRUE(motion_mock_verify_right_rear(expected_right_rear));
 }
 
 int
 main(void)
 {
     UNITY_BEGIN();
-    RUN_TEST(should_initialize_vehicle);
-    RUN_TEST(should_initialize_vehicle_ports);
+    RUN_TEST(should_initialize_drivers);
 
     RUN_PARAM_TEST(should_run,
                    COMMAND_MOVE_FACE_FORWARD,
