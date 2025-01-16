@@ -3,14 +3,6 @@
 #include "unity_config.h"
 #include <avr/io.h>
 
-uint8_t DDRD   = 0;
-uint8_t DDRC   = 0;
-uint8_t PORTC  = 0;
-uint8_t PORTD  = 0;
-uint8_t TCCR0A = 0;
-uint8_t TCCR0B = 0;
-uint8_t OCR0A  = 0;
-
 void
 setUp(void)
 {
@@ -39,7 +31,7 @@ should_init_gpio(void)
     TEST_ASSERT_BIT_HIGH(DDC3, DDRC);
     TEST_ASSERT_BIT_HIGH(DDC4, DDRC);
     TEST_ASSERT_BIT_HIGH(DDC5, DDRC);
-    // TODO: Uncomment it arter getting rid of avrhal
+    // TODO: Why these doesn't work???
     // TEST_ASSERT_BIT_HIGH(DDD0, DDRD);
     // TEST_ASSERT_BIT_HIGH(DDD1, DDRD);
     // TEST_ASSERT_BIT_HIGH(DDD2, DDRD);

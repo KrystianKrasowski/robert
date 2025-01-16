@@ -14,6 +14,7 @@ setUp(void)
 void
 tearDown(void)
 {
+    motion_mock_reset();
 }
 
 void
@@ -45,6 +46,20 @@ should_run(command_t          command,
     TEST_ASSERT_TRUE(motion_mock_verify_right_front(expected_right_front));
     TEST_ASSERT_TRUE(motion_mock_verify_left_rear(expected_left_rear));
     TEST_ASSERT_TRUE(motion_mock_verify_right_rear(expected_right_rear));
+}
+
+void
+should_not_apply_motion_on_same_command(void)
+{
+    // given
+    command_mock_given_command(COMMAND_MOVE_FACE_FORWARD);
+
+    // when
+    vehicle_run();
+    vehicle_run();
+
+    // then
+    TEST_ASSERT_EQUAL(1, motion_mock_apply_call_count());
 }
 
 int
@@ -192,6 +207,8 @@ main(void)
                    MOTION_NONE,
                    MOTION_NONE,
                    MOTION_NONE);
+
+    RUN_TEST(should_not_apply_motion_on_same_command);
 
     return UNITY_END();
 }

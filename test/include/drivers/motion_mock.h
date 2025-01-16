@@ -20,4 +20,10 @@ motion_mock_verify_left_rear(motion_direction_t direction);
 bool
 motion_mock_verify_right_rear(motion_direction_t direction);
 
+int
+motion_mock_apply_call_count(void);
+
+void
+motion_mock_reset(void);
+
 #endif

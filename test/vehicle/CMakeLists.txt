@@ -9,7 +9,6 @@ target_include_directories(motion_mock PRIVATE
     ${PROJECT_SOURCE_DIR}/test/include
 )
 
-
 set(TEST_NAME vehicle_test)
 add_executable(${TEST_NAME} vehicle_test.c)
 
@@ -18,7 +17,7 @@ target_include_directories(${TEST_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/test/include
 )
 
-target_link_libraries(${TEST_NAME} PUBLIC
+target_link_libraries(${TEST_NAME} PRIVATE
     command_mock 
     motion_mock
     vehicle

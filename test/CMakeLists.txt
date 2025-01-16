@@ -1,6 +1,5 @@
-if(${ENABLE_TESTS})
-    include(CTest)
-    enable_testing()
-    add_subdirectory(vehicle)
-    add_subdirectory(drivers/avr)
-endif()
+target_link_libraries(motion PUBLIC atmega88pa-stub)
+
+add_subdirectory(atmega88pa-stub)
+add_subdirectory(vehicle)
+add_subdirectory(drivers/avr)
