@@ -95,10 +95,11 @@ dualshock2_init_spi_master(void)
     // configure lsb first order
     spcr_value |= (1 << DORD);
 
-    // configure clock polarity as falling-rising
+    // configure mode 3 of SPI
+    // - clock idle on HIGH
+    // - data shift on falling edge
+    // - data sample on rising edge
     spcr_value |= (1 << CPOL);
-
-    // configure clock phase as setup-sample
     spcr_value |= (1 << CPHA);
 
     // configure spi clock speed prescaller to 32

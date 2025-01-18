@@ -105,22 +105,13 @@ should_set_spi_order_lsb_first(void)
 }
 
 void
-should_set_spi_clock_polarity_as_falling_rising(void)
+should_set_spi_mode_3(void)
 {
     // when
     dualshock2_init();
 
     // then
     TEST_ASSERT_BIT_HIGH(CPOL, SPCR);
-}
-
-void
-should_set_spi_clock_phase_as_setup_sample(void)
-{
-    // when
-    dualshock2_init();
-
-    // then
     TEST_ASSERT_BIT_HIGH(CPHA, SPCR);
 }
 
@@ -198,8 +189,7 @@ main(void)
     RUN_TEST(should_set_spi_in_master_mode);
     RUN_TEST(should_set_spi_interrupts_enabled);
     RUN_TEST(should_set_spi_order_lsb_first);
-    RUN_TEST(should_set_spi_clock_polarity_as_falling_rising);
-    RUN_TEST(should_set_spi_clock_phase_as_setup_sample);
+    RUN_TEST(should_set_spi_mode_3);
     RUN_TEST(should_set_spi_clock_prescaller_as_32);
     RUN_TEST(should_pull_ds2_attention_pin_low_on_communication_start);
     RUN_TEST(should_put_data_byte_on_transmit);

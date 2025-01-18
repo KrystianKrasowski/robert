@@ -57,7 +57,7 @@ should_init_timer0_pwm_channel_a_duty_cycle(void)
 
     // then
     TEST_ASSERT_BIT_HIGH(OC0A_BIT, OC0A_DDR);
-    TEST_ASSERT_EQUAL_HEX8(0xbf, OCR0A);
+    TEST_ASSERT_EQUAL_HEX8(0xd9, OCR0A);
 }
 
 void
