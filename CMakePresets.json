@@ -7,11 +7,48 @@
     },
     "configurePresets": [
         {
-            "name": "avr-release",
+            "name": "avr-default",
             "displayName": "Production build for AVR device",
             "generator": "Unix Makefiles",
             "toolchainFile": "./cmake/avr-gcc.cmake",
             "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+            }
+        },
+        {
+            "name": "arm-default",
+            "displayName": "Production build",
+            "generator": "Unix Makefiles",
+            "toolchainFile": "./cmake/arm-none-eabi-gcc.cmake",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+            }
+        },
+        {
+            "name": "AVR Debug",
+            "inherits": "avr-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "AVR Release",
+            "inherits": "avr-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "ARM Debug",
+            "inherits": "arm-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "ARM Release",
+            "inherits": "arm-default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }

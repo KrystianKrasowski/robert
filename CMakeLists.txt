@@ -1,17 +1,25 @@
 cmake_minimum_required(VERSION 3.27)
 
-set(MCU atmega88pa)
-
-project(robert VERSION 2.2.0 LANGUAGES C)
+project(robert VERSION 4.0.0 LANGUAGES C)
 
 include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
 
-add_subdirectory(src)
-
-if(${ENABLE_TESTS})
+# TODO: Review this structure at the end!
+if(CMAKE_TOOLCHAIN_FILE MATCHES "avr-gcc\\.cmake$")
+    message("Building for AVR")
+    add_subdirectory(app/avr)
+    add_subdirectory(src/vehicle)
+    add_subdirectory(src/drivers/avr)
+elseif(CMAKE_TOOLCHAIN_FILE MATCHES "arm-none-eabi-gcc\\.cmake$")
+    add_subdirectory(lib/stm32f303x8)
+    add_subdirectory(app/arm)
+    add_subdirectory(src/vehicle)
+    add_subdirectory(src/drivers/arm)
+else()
     include(CTest)
     enable_testing()
+    add_subdirectory(src/vehicle)
+    # add_subdirectory(src/drivers/arm)
+    add_subdirectory(src/drivers/avr)
     add_subdirectory(test)
-else()
-    add_subdirectory(app)
 endif()

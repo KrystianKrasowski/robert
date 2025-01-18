@@ -22,11 +22,11 @@ add_custom_target(create_hex_file ALL DEPENDS ${PROJECT_NAME})
 
 add_custom_target(flash
     COMMAND avrdude -c usbasp -p m88p -U flash:w:${PROJECT_NAME}.hex
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/app
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/app/avr
     COMMENT "Flashing ${PROJECT_NAME}.hex"
 )
 
 add_custom_target(size
     COMMAND ${CMAKE_COMMAND_SIZE} --format=avr --mcu=${MCU} ${PROJECT_NAME}
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/app
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/app/avr
 )
