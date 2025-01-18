@@ -1,20 +1,11 @@
-#include "dualshock2.h"
-#include "avr/io.h"
+#include "drivers/dualshock2.h"
 #include "unity_config.h"
-#include <avrhal/spi.h>
-#include <avrhal/timer1_interrupts.h>
+#include <avr/io.h>
 #include <unity.h>
 
 void
 setUp(void)
 {
-    DDRB   = 0;
-    PORTB  = 0;
-    TCCR1A = 0;
-    TCCR1B = 0;
-    OCR1A  = 0;
-    OCR1B  = 0;
-    TIMSK1 = 0;
 }
 
 void
@@ -114,22 +105,13 @@ should_set_spi_order_lsb_first(void)
 }
 
 void
-should_set_spi_clock_polarity_as_falling_rising(void)
+should_set_spi_mode_3(void)
 {
     // when
     dualshock2_init();
 
     // then
     TEST_ASSERT_BIT_HIGH(CPOL, SPCR);
-}
-
-void
-should_set_spi_clock_phase_as_setup_sample(void)
-{
-    // when
-    dualshock2_init();
-
-    // then
     TEST_ASSERT_BIT_HIGH(CPHA, SPCR);
 }
 
@@ -149,7 +131,7 @@ void
 should_pull_ds2_attention_pin_low_on_communication_start(void)
 {
     // given
-    hal_timer1_output_compare_a_isr();
+    dualshock2_handle_request_prepare_isr();
 
     // when
     uint16_t cmd = dualshock2_read();
@@ -163,8 +145,8 @@ void
 should_put_data_byte_on_transmit(void)
 {
     // given
-    hal_timer1_output_compare_a_isr();
-    hal_timer1_output_compare_b_isr();
+    dualshock2_handle_request_prepare_isr();
+    dualshock2_handle_request_transmit_isr();
 
     // when
     // when
@@ -179,13 +161,13 @@ should_read_control_command(uint8_t  response_sequence[],
                             uint16_t expected_command)
 {
     // given
-    hal_timer1_output_compare_a_isr();
-    hal_timer1_output_compare_b_isr();
+    dualshock2_handle_request_prepare_isr();
+    dualshock2_handle_request_transmit_isr();
 
     for (int i = 0; i < 9; i++)
     {
         dualshock2_read();
-        hal_spi_transfer_complete_isr(response_sequence[i]);
+        dualshock2_handle_response_isr(response_sequence[i]);
     }
 
     // when
@@ -201,13 +183,13 @@ main(void)
     UNITY_BEGIN();
     RUN_TEST(should_set_dualshock2_attention_pin_as_output_and_high);
     RUN_TEST(should_set_timer1_in_ctc_mode);
+    RUN_TEST(should_set_timer1_channels_resolution);
     RUN_TEST(should_run_timer1_with_8_prescaller);
     RUN_TEST(should_enable_output_compare_interrupt_on_timer1_channels_a_b);
     RUN_TEST(should_set_spi_in_master_mode);
     RUN_TEST(should_set_spi_interrupts_enabled);
     RUN_TEST(should_set_spi_order_lsb_first);
-    RUN_TEST(should_set_spi_clock_polarity_as_falling_rising);
-    RUN_TEST(should_set_spi_clock_phase_as_setup_sample);
+    RUN_TEST(should_set_spi_mode_3);
     RUN_TEST(should_set_spi_clock_prescaller_as_32);
     RUN_TEST(should_pull_ds2_attention_pin_low_on_communication_start);
     RUN_TEST(should_put_data_byte_on_transmit);
