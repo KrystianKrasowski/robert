@@ -102,15 +102,22 @@ motion_pwm_init(void)
 static void
 motion_pwm_run(void)
 {
+    uint8_t tccr0a_mask = TCCR0A;
+    uint8_t tccr0b_mask = TCCR0B;
+
     // set non-inverting mode on PWM channel A
-    TCCR0A &= ~(1 << COM0A0);
-    TCCR0A |= (1 << COM0A1);
+    tccr0a_mask &= ~(1 << COM0A0);
+    tccr0a_mask |= (1 << COM0A1);
 
     // set 256 TIMER0 prescaller
     // TODO: check if I could do this only for init operation
-    TCCR0B &= ~(1 << CS00);
-    TCCR0B &= ~(1 << CS01);
-    TCCR0B |= (1 << CS02);
+    tccr0b_mask &= ~(1 << CS00);
+    tccr0b_mask &= ~(1 << CS01);
+    tccr0b_mask |= (1 << CS02);
+
+    // apply register values at once for performence
+    TCCR0A = tccr0a_mask;
+    TCCR0B = tccr0b_mask;
 }
 
 static void
@@ -130,19 +137,23 @@ motion_gpio_set(motion_direction_t direction,
                 uint8_t            a1,
                 uint8_t            a2)
 {
+    uint8_t portx_mask = *PORTx;
+
     switch (direction)
     {
         case MOTION_FORWARD:
-            *PORTx &= ~(1 << a1);
-            *PORTx |= (1 << a2);
+            portx_mask &= ~(1 << a1);
+            portx_mask |= (1 << a2);
             break;
         case MOTION_BACKWARD:
-            *PORTx |= (1 << a1);
-            *PORTx &= ~(1 << a2);
+            portx_mask |= (1 << a1);
+            portx_mask &= ~(1 << a2);
             break;
         case MOTION_NONE:
         default:
-            *PORTx &= ~(1 << a1);
-            *PORTx &= ~(1 << a2);
+            portx_mask &= ~(1 << a1);
+            portx_mask &= ~(1 << a2);
     }
+
+    *PORTx = portx_mask;
 }
