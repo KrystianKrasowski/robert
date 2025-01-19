@@ -98,7 +98,7 @@ timer_compare_b_match_isr(void)
 }
 
 void
-spi_on_response_received_isr(uint8_t resposne_byte)
+spi_on_response_received_isr(uint8_t const resposne_byte)
 {
     response[ds2_communication.command_index++] = resposne_byte;
 

@@ -45,7 +45,7 @@ spi_init_master(void)
 }
 
 void
-spi_transmit(uint8_t request)
+spi_transmit(uint8_t const request)
 {
     SPDR = request;
 }
@@ -56,6 +56,6 @@ ISR(SPI_STC_vect)
 }
 
 __attribute__((weak)) void
-spi_on_response_received_isr(uint8_t resposne)
+spi_on_response_received_isr(uint8_t const resposne)
 {
 }
