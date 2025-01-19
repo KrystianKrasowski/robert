@@ -49,10 +49,7 @@ void
 dualshock2_init(void)
 {
     gpio_init_output(GPIO_DUALSHOCK2_ATTENTION);
-    gpio_apply_modes();
     gpio_set_output(GPIO_DUALSHOCK2_ATTENTION, GPIO_STATE_HIGH);
-    gpio_apply_states();
-
     spi_init_master();
     timer_init();
 }
@@ -64,7 +61,6 @@ dualshock2_read(void)
     {
         ds2_communication.start = 0;
         gpio_set_output(GPIO_DUALSHOCK2_ATTENTION, GPIO_STATE_LOW);
-        gpio_apply_states();
     }
 
     if (ds2_communication.transmit)
@@ -77,7 +73,6 @@ dualshock2_read(void)
     {
         ds2_communication.finish = 0;
         gpio_set_output(GPIO_DUALSHOCK2_ATTENTION, GPIO_STATE_HIGH);
-        gpio_apply_states();
         ds2_communication.command_index = 0;
         dualshock2_state_update();
     }

@@ -16,7 +16,6 @@ motion_init(void)
     gpio_init_output(GPIO_L293_LEFT_REAR_A2);
     gpio_init_output(GPIO_L293_RIGHT_REAR_A1);
     gpio_init_output(GPIO_L293_RIGHT_REAR_A2);
-    gpio_apply_modes();
 
     pwm_init();
 }
@@ -62,6 +61,4 @@ motion_gpio_set(motion_direction_t direction, gpio_pin_t a1, gpio_pin_t a2)
             gpio_set_output(a1, GPIO_STATE_LOW);
             gpio_set_output(a2, GPIO_STATE_LOW);
     }
-
-    gpio_apply_states();
 }

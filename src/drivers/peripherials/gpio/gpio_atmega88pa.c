@@ -28,12 +28,6 @@ gpio_init_output(gpio_pin_t pin)
 }
 
 void
-gpio_apply_modes(void)
-{
-
-}
-
-void
 gpio_set_output(gpio_pin_t pin, gpio_state_t state)
 {
     if (state == GPIO_STATE_HIGH)
@@ -44,24 +38,4 @@ gpio_set_output(gpio_pin_t pin, gpio_state_t state)
     {
         *gpio[pin].portx &= ~(1 << gpio[pin].bit);
     }
-}
-
-void
-gpio_apply_states(void)
-{
-
-}
-
-void
-gpio_reset_modes(void)
-{
-
-    gpio_apply_modes();
-}
-
-void
-gpio_reset_states(void)
-{
-
-    gpio_apply_states();
 }
