@@ -23,9 +23,9 @@ typedef enum
 } gpio_state_t;
 
 void
-gpio_init_output(gpio_pin_t pin);
+gpio_init_output(gpio_pin_t const pin);
 
 void
-gpio_set_output(gpio_pin_t pin, gpio_state_t state);
+gpio_set_output(gpio_pin_t const pin, gpio_state_t const state);
 
 #endif

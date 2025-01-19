@@ -22,13 +22,13 @@ static gpio_definition_t gpio[9] = {
 };
 
 void
-gpio_init_output(gpio_pin_t pin)
+gpio_init_output(gpio_pin_t const pin)
 {
     *gpio[pin].ddrx |= (1 << gpio[pin].bit);
 }
 
 void
-gpio_set_output(gpio_pin_t pin, gpio_state_t state)
+gpio_set_output(gpio_pin_t const pin, gpio_state_t const state)
 {
     if (state == GPIO_STATE_HIGH)
     {
