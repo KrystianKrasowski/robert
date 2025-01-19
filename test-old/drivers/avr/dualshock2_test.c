@@ -25,7 +25,7 @@ should_set_dualshock2_attention_pin_as_output_and_high(void)
 }
 
 void
-should_set_timer1_in_ctc_mode(void)
+should_init_timer1_in_ctc_mode(void)
 {
     // when
     dualshock2_init();
@@ -182,7 +182,7 @@ main(void)
 {
     UNITY_BEGIN();
     RUN_TEST(should_set_dualshock2_attention_pin_as_output_and_high);
-    RUN_TEST(should_set_timer1_in_ctc_mode);
+    RUN_TEST(should_init_timer1_in_ctc_mode);
     RUN_TEST(should_set_timer1_channels_resolution);
     RUN_TEST(should_run_timer1_with_8_prescaller);
     RUN_TEST(should_enable_output_compare_interrupt_on_timer1_channels_a_b);
