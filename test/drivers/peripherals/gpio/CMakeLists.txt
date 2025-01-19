@@ -11,8 +11,6 @@ target_include_directories(gpio_atmega88pa_test
 )
 
 target_link_libraries(gpio_atmega88pa_test
-    INTERFACE
-        gpio
     PRIVATE
         gpio_atmega88pa
         unity

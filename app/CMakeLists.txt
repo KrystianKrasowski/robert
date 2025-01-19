@@ -1,0 +1,7 @@
+if(CMAKE_TOOLCHAIN_FILE MATCHES "avr-gcc\\.cmake$")
+    message("Building for Atmega88PA")
+    add_subdirectory(avr)
+elseif(CMAKE_TOOLCHAIN_FILE MATCHES "arm-none-eabi-gcc\\.cmake$")
+    message("Building for STM32F303K8")
+    add_subdirectory(arm)
+endif()

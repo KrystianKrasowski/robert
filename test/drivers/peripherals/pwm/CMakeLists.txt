@@ -11,8 +11,6 @@ target_include_directories(pwm_atmega88pa_test
 )
 
 target_link_libraries(pwm_atmega88pa_test
-    INTERFACE
-        pwm
     PRIVATE
         pwm_atmega88pa
         unity

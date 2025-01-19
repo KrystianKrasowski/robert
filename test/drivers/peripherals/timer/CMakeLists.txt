@@ -11,8 +11,6 @@ target_include_directories(timer_atmega88pa_test
 )
 
 target_link_libraries(timer_atmega88pa_test
-    INTERFACE
-        timer
     PRIVATE
         timer_atmega88pa
         unity

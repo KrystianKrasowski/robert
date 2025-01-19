@@ -7,25 +7,8 @@ include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
 include(CTest)
 enable_testing()
 
+# TODO: Introduce TARGET_ARCH flag for clearer logic in subdirectories
+
+add_subdirectory(app)
 add_subdirectory(src)
 add_subdirectory(test)
-
-# TODO: Review this structure at the end!
-# if(CMAKE_TOOLCHAIN_FILE MATCHES "avr-gcc\\.cmake$")
-#     message("Building for AVR")
-#     add_subdirectory(app/avr)
-#     add_subdirectory(src/vehicle)
-#     add_subdirectory(src/drivers/avr)
-# elseif(CMAKE_TOOLCHAIN_FILE MATCHES "arm-none-eabi-gcc\\.cmake$")
-#     add_subdirectory(lib/stm32f303x8)
-#     add_subdirectory(app/arm)
-#     add_subdirectory(src/vehicle)
-#     add_subdirectory(src/drivers/arm)
-# else()
-#     include(CTest)
-#     enable_testing()
-#     add_subdirectory(src/vehicle)
-#     # add_subdirectory(src/drivers/arm)
-#     add_subdirectory(src/drivers/avr)
-#     add_subdirectory(test)
-# endif()

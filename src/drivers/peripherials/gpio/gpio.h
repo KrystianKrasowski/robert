@@ -23,13 +23,13 @@ typedef enum
 } gpio_state_t;
 
 void
-gpio_init(gpio_pin_t pin);
+gpio_init_output(gpio_pin_t pin);
 
 void
 gpio_apply_modes(void);
 
 void
-gpio_set(gpio_pin_t pin, gpio_state_t state);
+gpio_set_output(gpio_pin_t pin, gpio_state_t state);
 
 void
 gpio_apply_states(void);

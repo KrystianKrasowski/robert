@@ -1,14 +1,14 @@
 add_executable(${PROJECT_NAME} main.c)
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
-)
-
 target_link_libraries(${PROJECT_NAME} PRIVATE
     vehicle
-    command
+    "command"
     motion
     dualshock2
+    gpio_atmega88pa
+    timer_atmega88pa
+    pwm_atmega88pa
+    spi_atmega88pa
 )
 
 add_custom_command(

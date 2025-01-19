@@ -11,8 +11,6 @@ target_include_directories(spi_atmega88pa_test
 )
 
 target_link_libraries(spi_atmega88pa_test
-    INTERFACE
-        spi
     PRIVATE
         spi_atmega88pa
         unity

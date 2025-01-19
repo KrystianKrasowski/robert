@@ -44,6 +44,12 @@ spi_init_master(void)
     SPSR = spsr_value;
 }
 
+void
+spi_transmit(uint8_t request)
+{
+    SPDR = request;
+}
+
 ISR(SPI_STC_vect)
 {
     spi_on_response_received_isr(SPDR);

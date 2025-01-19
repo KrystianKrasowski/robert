@@ -19,7 +19,7 @@ void
 should_init_as_output(gpio_pin_t pin, uint8_t bit, uint8_t *DDRx)
 {
     // when
-    gpio_init(pin);
+    gpio_init_output(pin);
     gpio_apply_modes();
 
     // then
@@ -30,7 +30,7 @@ void
 should_set_high(gpio_pin_t pin, uint8_t bit, uint8_t *PORTx)
 {
     // when
-    gpio_set(pin, GPIO_STATE_HIGH);
+    gpio_set_output(pin, GPIO_STATE_HIGH);
     gpio_apply_states();
 
     // then

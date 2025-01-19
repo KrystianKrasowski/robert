@@ -7,6 +7,9 @@ void
 spi_init_master(void);
 
 void
+spi_transmit(uint8_t request);
+
+void
 spi_on_response_received_isr(uint8_t resposne) __attribute__((weak));
 
 #endif
