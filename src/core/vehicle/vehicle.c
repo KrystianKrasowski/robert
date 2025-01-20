@@ -31,7 +31,7 @@ vehicle_run(void)
 static motion_t
 vehicle_create_motion(command_t command)
 {
-    motion_t motion = {};
+    motion_t motion;
     switch (command)
     {
         case COMMAND_MOVE_FACE_FORWARD:

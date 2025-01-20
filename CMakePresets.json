@@ -13,6 +13,7 @@
             "toolchainFile": "./cmake/avr-gcc.cmake",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
+                "TARGET_ARCH": "atmega88pa"
             }
         },
         {
@@ -23,6 +24,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "hidden": true,
             "cacheVariables": {
+                "TARGET_ARCH": "stm32f303x8"
             }
         },
         {
@@ -60,8 +62,8 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "ENABLE_TESTS": "TRUE",
-                "UNITY_EXTENSION_FIXTURE": "TRUE"
+                "UNITY_EXTENSION_FIXTURE": "TRUE",
+                "TARGET_ARCH": "test"
             }
         }
     ],

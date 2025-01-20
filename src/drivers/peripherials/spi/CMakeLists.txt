@@ -5,9 +5,7 @@ target_include_directories(spi
         "./"
 )
 
-add_library(spi_atmega88pa spi_atmega88pa.c)
-
-target_link_libraries(spi_atmega88pa
-    INTERFACE
-        spi
-)
+if(TARGET_ARCH STREQUAL "atmega88pa" OR TARGET_ARCH STREQUAL "test")
+    add_library(spi_atmega88pa spi_atmega88pa.c)
+    target_link_libraries(spi_atmega88pa INTERFACE spi)
+endif()
