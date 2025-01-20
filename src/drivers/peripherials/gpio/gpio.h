@@ -18,14 +18,26 @@ typedef enum
 
 typedef enum
 {
+    GPIO_MODE_OUTPUT,
+} gpio_mode_t;
+
+typedef enum
+{
     GPIO_STATE_HIGH,
     GPIO_STATE_LOW,
 } gpio_state_t;
 
-void
-gpio_init_output(gpio_pin_t const pin);
+typedef struct gpio
+{
+    gpio_pin_t const pin;
+    gpio_mode_t      mode;
+    gpio_state_t     state;
+} gpio_t;
 
 void
-gpio_set_output(gpio_pin_t const pin, gpio_state_t const state);
+gpio_init(gpio_t *self);
+
+void
+gpio_set_state(gpio_t *self, gpio_state_t const state);
 
 #endif

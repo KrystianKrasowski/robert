@@ -16,8 +16,11 @@ tearDown()
 void
 should_init_as_output(gpio_pin_t pin, uint8_t bit, uint8_t *DDRx)
 {
+    // given
+    gpio_t gpio = {pin};
+
     // when
-    gpio_init_output(pin);
+    gpio_init(&gpio);
 
     // then
     TEST_ASSERT_BIT_HIGH(bit, *DDRx);
@@ -26,8 +29,11 @@ should_init_as_output(gpio_pin_t pin, uint8_t bit, uint8_t *DDRx)
 void
 should_set_high(gpio_pin_t pin, uint8_t bit, uint8_t *PORTx)
 {
+    // given
+    gpio_t gpio = {pin};
+
     // when
-    gpio_set_output(pin, GPIO_STATE_HIGH);
+    gpio_set_state(&gpio, GPIO_STATE_HIGH);
 
     // then
     TEST_ASSERT_BIT_HIGH(bit, *PORTx);
