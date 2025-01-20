@@ -22,6 +22,6 @@ There are some places where I coul use singletons:
 * Vehicle and motion as the objects as well caused huge implementation leakage
 
 ## Outcome
-* More FLASH usage. 31.8% vs ~20% - no suprise here actually
+* More FLASH usage. 25.4% vs ~20% - no suprise here actually
 * RAM stays still. ~10%
 * Great unit test experiance!

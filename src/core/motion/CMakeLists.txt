@@ -6,6 +6,7 @@ target_include_directories(motion
 )
 
 target_link_libraries(motion
-    PUBLIC gpio
-    PRIVATE pwm
+    PRIVATE 
+        gpio
+        pwm
 )

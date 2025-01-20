@@ -27,6 +27,15 @@ static gpio_definition_t gpio[9] = {
     [GPIO_DUALSHOCK2_ATTENTION] = {&DDRB, &PORTB, 1},
 };
 
+gpio_t
+gpio_create(gpio_pin_t pin)
+{
+    gpio_t gpio = {pin};
+    gpio_init(&gpio);
+    
+    return gpio;
+}
+
 void
 gpio_init(gpio_t *self)
 {
