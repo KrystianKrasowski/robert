@@ -1,4 +1,5 @@
 #include "gpio.h"
+#include "pwm.h"
 
 // led is PB3
 #define LED_PIN GPIO_ODR_3
@@ -22,6 +23,9 @@ main(void)
     gpio_set_state(&left_rear_a2, GPIO_STATE_HIGH);
     gpio_set_state(&right_rear_a1, GPIO_STATE_HIGH);
     gpio_set_state(&right_rear_a2, GPIO_STATE_HIGH);
+
+    pwm_init();
+    pwm_run();
 
     while (1)
     {
