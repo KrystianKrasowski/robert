@@ -16,3 +16,5 @@ target_include_directories(command_stub
     PUBLIC
         "./"
 )
+
+target_link_libraries(command_stub PRIVATE timer)

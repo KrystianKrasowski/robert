@@ -70,11 +70,6 @@ gpio_set_state(gpio_t *self, gpio_state_t const state)
 {
     gpio_definition_t *definition = &gpio[self->pin];
 
-    if (state == self->state)
-    {
-        return;
-    }
-
     if (state == GPIO_STATE_LOW)
     {
         definition->gpiox->ODR &= ~(1 << definition->bit);

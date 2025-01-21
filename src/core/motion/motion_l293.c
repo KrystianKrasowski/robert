@@ -33,7 +33,7 @@ motion_init(void)
     singleton.left_front.direction = MOTION_NONE;
     singleton.right_front.a1       = gpio_create(GPIO_L293_RIGHT_FRONT_A1);
     singleton.right_front.a2       = gpio_create(GPIO_L293_RIGHT_FRONT_A2);
-    singleton.left_front.direction = MOTION_NONE;
+    singleton.right_front.direction = MOTION_NONE;
     singleton.left_rear.a1         = gpio_create(GPIO_L293_LEFT_REAR_A1);
     singleton.left_rear.a2         = gpio_create(GPIO_L293_LEFT_REAR_A2);
     singleton.left_rear.direction  = MOTION_NONE;

@@ -25,7 +25,7 @@ pwm_init(void)
     TIM1->ARR = 100 - 1;
 
     // fix duty cycle on 50%
-    TIM1->CCR1 = 80;
+    TIM1->CCR1 = 30;
 
     // set center aligned PWM mode
     TIM1->CR1 |= TIM_CR1_CMS_0;

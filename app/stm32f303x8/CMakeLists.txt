@@ -6,6 +6,7 @@ target_link_libraries(${PROJECT_NAME}
         command_stub
         motion
         gpio_stm32f303x8
+        timer_stm32f303x8
         pwm_stm32f303x8
 )
 
