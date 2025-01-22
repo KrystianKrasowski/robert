@@ -7,11 +7,50 @@
     },
     "configurePresets": [
         {
-            "name": "avr-release",
+            "name": "avr-default",
             "displayName": "Production build for AVR device",
             "generator": "Unix Makefiles",
             "toolchainFile": "./cmake/avr-gcc.cmake",
             "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "TARGET_ARCH": "atmega88pa"
+            }
+        },
+        {
+            "name": "arm-default",
+            "displayName": "Production build",
+            "generator": "Unix Makefiles",
+            "toolchainFile": "./cmake/arm-none-eabi-gcc.cmake",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+                "TARGET_ARCH": "stm32f303x8"
+            }
+        },
+        {
+            "name": "AVR Debug",
+            "inherits": "avr-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "AVR Release",
+            "inherits": "avr-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "ARM Debug",
+            "inherits": "arm-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "ARM Release",
+            "inherits": "arm-default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -23,8 +62,8 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "ENABLE_TESTS": "TRUE",
-                "UNITY_EXTENSION_FIXTURE": "TRUE"
+                "UNITY_EXTENSION_FIXTURE": "TRUE",
+                "TARGET_ARCH": "test"
             }
         }
     ],

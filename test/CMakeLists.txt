@@ -1,6 +1,7 @@
-target_link_libraries(motion PUBLIC atmega88pa-stub)
-target_link_libraries(dualshock2 PUBLIC atmega88pa-stub)
-
-add_subdirectory(atmega88pa-stub)
-add_subdirectory(vehicle)
-add_subdirectory(drivers/avr)
+if(CMAKE_TOOLCHAIN_FILE)
+else()
+    message("Building for tests")
+    add_subdirectory(atmega88pa-stub)
+    add_subdirectory(drivers)
+    add_subdirectory(mocks)
+endif()

@@ -1,2 +1,2 @@
-add_subdirectory(vehicle)
-add_subdirectory(drivers/avr)
+add_subdirectory(drivers)
+add_subdirectory(core)

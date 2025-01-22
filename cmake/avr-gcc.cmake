@@ -1,3 +1,4 @@
+set(MCU atmega88pa)
 set(CMAKE_C_COMPILER avr-gcc)
 set(CMAKE_AR avr-ar)
 set(CMAKE_OBJCOPY avr-objcopy)

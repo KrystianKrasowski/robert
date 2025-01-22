@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 3.27)
 
-set(MCU atmega88pa)
-
-project(robert VERSION 2.2.0 LANGUAGES C)
+project(robert VERSION 4.0.0 LANGUAGES C)
 
 include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
 
-add_subdirectory(src)
+set(TARGET_ARCH "test" CACHE STRING "Target architecture name")
 
-if(${ENABLE_TESTS})
-    include(CTest)
-    enable_testing()
-    add_subdirectory(test)
-else()
-    add_subdirectory(app)
-endif()
+include(CTest)
+enable_testing()
+
+# TODO: Introduce TARGET_ARCH flag for clearer logic in subdirectories
+
+add_subdirectory(app)
+add_subdirectory(lib)
+add_subdirectory(src)
+add_subdirectory(test)
