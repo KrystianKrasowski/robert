@@ -1,16 +1,6 @@
 #include "spi.h"
 #include "stm32f3xx.h"
 
-#define BUFFER_SIZE 10
-
-// TODO: a struct would be nice here
-static volatile uint8_t tx_buffer[BUFFER_SIZE];
-static volatile uint8_t rx_buffer[BUFFER_SIZE];
-static volatile uint8_t tx_index          = 0;
-static volatile uint8_t rx_index          = 0;
-static volatile uint8_t data_size         = 0;
-static volatile bool    transfer_complete = true;
-
 void
 spi_init_master(void)
 {
@@ -42,8 +32,7 @@ spi_init_master(void)
     SPI1->CR1 |= (4 << SPI_CR1_BR_Pos);
 
     // set mode 3
-    SPI1->CR1 |= SPI_CR1_CPOL;
-    SPI1->CR1 &= ~SPI_CR1_CPHA;
+    SPI1->CR1 |= SPI_CR1_CPOL | SPI_CR1_CPHA;
 
     // set fullduplex communication
     SPI1->CR1 &= ~SPI_CR1_RXONLY;
@@ -64,14 +53,11 @@ spi_init_master(void)
     SPI1->CR2 |= SPI_CR2_DS_1;
     SPI1->CR2 |= SPI_CR2_DS_0;
 
-    // configure SSOE - it might be the pull-up issue
-    // enable interrupts
-    SPI1->CR2 |= SPI_CR2_TXEIE | SPI_CR2_RXNEIE;
+    // enable receive interrupts
+    SPI1->CR2 |= SPI_CR2_RXNEIE;
 
     // trigger interrupt wher RX buffer is 8bit long
     SPI1->CR2 |= SPI_CR2_FRXTH;
-
-    SPI1->CR2 |= SPI_CR2_NSSP;
 
     // enable SPI
     SPI1->CR1 |= SPI_CR1_SPE;
@@ -80,73 +66,26 @@ spi_init_master(void)
     NVIC_EnableIRQ(SPI1_IRQn);
 }
 
-bool
-spi_transmit(uint8_t request[], uint8_t size)
+void
+spi_transmit(uint8_t const request)
 {
-    if (transfer_complete)
-    {
-        // fill the transmit buffer
-        for (uint8_t i = 0; i < size; i++)
-        {
-            tx_buffer[i] = request[i];
-        }
-
-        // initialize the communication
-        data_size         = size;
-        tx_index          = 0;
-        transfer_complete = false;
-
-        // start transmission by enabling the interrupt
-        SPI1->CR2 |= SPI_CR2_TXEIE;
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool
-spi_receive(uint8_t response[], uint8_t size)
-{
-    if (transfer_complete)
-    {
-        for (uint8_t i = 0; i < size; i++)
-        {
-            response[i] = rx_buffer[i];
-        }
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    while (!(SPI1->SR & SPI_SR_TXE))
+        ;
+    *(__IO uint8_t *)(&SPI1->DR) = request;
+    // while (!(SPI1->SR & SPI_SR_TXE))
+    //     ;
 }
 
 void
 SPI1_IRQHandler(void)
 {
-    if (SPI1->SR & SPI_SR_TXE)
-    {
-        if (tx_index < data_size)
-        {
-            *(__IO uint8_t*)(&SPI1->DR) = tx_buffer[tx_index++];
-        }
-        else
-        {
-            // all data transmitted, disable interrupt
-            SPI1->CR2 &= ~SPI_CR2_TXEIE;
-        }
-    }
-
     if (SPI1->SR & SPI_SR_RXNE)
     {
-        rx_buffer[rx_index++] = (uint8_t)SPI1->DR;
-        if (rx_index >= data_size)
-        {
-            transfer_complete = true;
-        }
+        spi_on_response_received_isr((uint8_t)SPI1->DR);
     }
+}
+
+__attribute__((weak)) void
+spi_on_response_received_isr(uint8_t const resposne)
+{
 }
