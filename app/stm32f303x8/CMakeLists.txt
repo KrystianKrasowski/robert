@@ -3,11 +3,13 @@ add_executable(${PROJECT_NAME} main.c)
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE 
         vehicle
-        command_stub
+        "command"
         motion
+        dualshock2
         gpio_stm32f303x8
         timer_stm32f303x8
         pwm_stm32f303x8
+        spi_stm32f303x8
 )
 
 add_custom_command(TARGET ${PROJECT_NAME}
