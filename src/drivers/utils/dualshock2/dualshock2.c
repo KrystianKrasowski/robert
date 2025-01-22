@@ -42,9 +42,6 @@ static volatile uint8_t response[9] = {0};
 static gpio_t attention = {GPIO_DUALSHOCK2_ATTENTION};
 
 static void
-dualshock2_spi_transmit_next();
-
-static void
 dualshock2_state_update(void);
 
 void
@@ -67,8 +64,12 @@ dualshock2_read(void)
 
     if (ds2_communication.transmit)
     {
-        ds2_communication.transmit = 0;
-        dualshock2_spi_transmit_next();
+        spi_transmit(&command_sequence, 9);
+        if (spi_receive(&response, 9))
+        {
+            ds2_communication.transmit = 0;
+            ds2_communication.finish = 1;
+        }
     }
 
     if (ds2_communication.finish)
@@ -112,12 +113,6 @@ spi_on_response_received_isr(uint8_t const resposne_byte)
     {
         ds2_communication.finish = 1;
     }
-}
-
-static void
-dualshock2_spi_transmit_next(void)
-{
-    spi_transmit(command_sequence[ds2_communication.command_index]);
 }
 
 static void
